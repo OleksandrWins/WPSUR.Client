@@ -1,0 +1,11 @@
+.sidebar { 
+  width: 20% !important;
+  background-color: #175A9B;
+  position: fixed;
+  height: 100%;
+}
+
+.nav-menu-row {
+  width: auto;
+  justify-content: center;
+}

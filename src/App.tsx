@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
+import "./App.css";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import MainPage from "./pages/MainPage/mainPage";
+import RegisterPage from "./pages/RegisterPage/registerPage";
 
-function App() {
+const App = () => {
+  function isAuthenticated(): boolean {
+    if (localStorage.getItem("token")) {
+      console.log("true");
+      return true;
+    }
+    console.log("false");
+
+    return false;
+  }
+
+  useEffect(() => {
+    isAuthenticated();
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+        <Routes>
+          {isAuthenticated() ? (
+            <Route path="/*" element={<MainPage />} />
+          ) : (
+            <Route path="*" element={<Navigate to="/sign-in" />} />
+          )}
+          {isAuthenticated() ? null : <Route path="/sign-in" element={<LoginPage />} />}
+          {isAuthenticated() ? null: <Route path="/sign-up" element={<RegisterPage />} />}
+        </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

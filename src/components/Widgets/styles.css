@@ -1,0 +1,21 @@
+.widgetMenu {
+  position: fixed;
+  width: 30%;
+  margin-left: 70%;
+  height: 100%;
+}
+
+.topWidget { 
+  background-color: #7694A4;
+  height: 22%;
+}
+
+.mainWidget {
+  background-color: #486877;
+  height: 56%;
+}
+
+.bottomWidget { 
+  background-color: #175A9B;
+  height: 22%;
+}
