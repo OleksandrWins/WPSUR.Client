@@ -1,5 +1,4 @@
 import { Col, Container, Row } from "react-bootstrap";
-import "./styles.css";
 
 const UserProfile = () => { 
   return(
