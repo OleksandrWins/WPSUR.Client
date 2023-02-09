@@ -1,0 +1,46 @@
+.nav-menu {
+  width: 75% !important;
+  padding: 0% !important;
+}
+
+.row-nav-menu { 
+  margin: 0 !important;
+}
+
+.menu-item {
+  color: #83B9D3 !important;
+}
+
+.menu-item-home { 
+  fill: #83b9d3 !important;
+}
+
+.menu-item-home:hover { 
+  fill: #efd59c !important;
+}
+
+.menu-item-messages { 
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+  stroke: #83b9d3 !important;
+}
+
+.menu-item-messages:hover { 
+  stroke: #efd59c !important;
+}
+
+.active { 
+  color: #F3B73B !important;
+}
+
+.active-home-icon {
+  fill:  #F3B73B !important;
+}
+
+.active-messages-icon {
+  stroke: #F3B73B !important;
+}
+
+a {
+  padding: 0% !important;
+}

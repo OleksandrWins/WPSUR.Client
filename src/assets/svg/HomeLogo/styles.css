@@ -1,0 +1,7 @@
+.logo-col { 
+  padding: 0 !important;
+  display: flex;
+  padding-top: 3% !important;
+  margin-right: 1.5%;
+  justify-content: center;
+}
