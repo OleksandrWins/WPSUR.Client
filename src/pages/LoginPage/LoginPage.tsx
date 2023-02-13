@@ -20,6 +20,8 @@ const LoginPage = () => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => { 
     e.preventDefault();
 
+    debugger;
+
     loginUser(formData.login);
   }
 
