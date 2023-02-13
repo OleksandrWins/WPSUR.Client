@@ -1,15 +1,15 @@
 import { AxiosResponse } from "axios";
 import Chat from "../../models/chats/Chat";
-import GetChatRequest from "../../models/chats/request/GetChatRequest";
+import ChatView from "../../models/chats/ChatView";
 import HttpServiceBase from "./HttpServiceBase";
 
-const getInterlocutors = (userId: string): Promise<AxiosResponse<string[]>> => {
-  return HttpServiceBase.Get<string[]>(`Chat/getChats?senderID=${userId}`);
+const getInterlocutors = (userId: string): Promise<AxiosResponse<ChatView[]>> => {
+  return HttpServiceBase.Get<ChatView[]>(`Chat/getChats?senderID=${userId}`);
 };
 
-const getChat = (request: GetChatRequest): Promise<AxiosResponse<Chat>> => {
+const getChat = (userTo: string): Promise<AxiosResponse<Chat>> => {
   return HttpServiceBase.Get<Chat>(
-    `getChat?userFrom=${request.userFrom}&userTo=${request.userTo}`
+    `Chat/getChat?userTo=${userTo}`
   );
 };
 

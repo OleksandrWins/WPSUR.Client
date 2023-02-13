@@ -5,6 +5,7 @@ import Widgets from "../../components/Widgets/widgets";
 import "../../styles/custom.css";
 import MessagePageModule from "../../components/PageModules/MessagePageModule/messagePageModule";
 import MainPageModule from "../../components/PageModules/MainPageModule/mainPageModule";
+import ChatModule from "../../components/PageModules/ChatModule/chatModule";
 
 const MainPage = () => {
   return <Container>
@@ -14,6 +15,7 @@ const MainPage = () => {
         <Routes>
           <Route path="/home" element={<MainPageModule />}/>
           <Route path="/messages" element={<MessagePageModule />}/>
+          <Route path="/messages/:chatId" element={<ChatModule />} />
           <Route path="*" element={<Navigate to="/home"/>}/>
         </Routes>
       </Col>
