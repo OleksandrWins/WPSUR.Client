@@ -1,5 +1,4 @@
 interface MessageView { 
-  userFromName: string;
   userToName: string;
   createdDate: Date;
   updatedDate?: Date;

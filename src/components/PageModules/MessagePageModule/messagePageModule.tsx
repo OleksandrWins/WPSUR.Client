@@ -9,14 +9,11 @@ type ChatsState = {
   chats: ChatView[];
 };
 
-export type HtmlChat = { 
+export type HtmlChat = {
   htmlElements: Array<JSX.Element>;
-}
+};
 
-class MessagePageModule extends React.Component<{},ChatsState> {
-
-  i = 0;
-
+class MessagePageModule extends React.Component<{}, ChatsState> {
   userFrom: string = "3FA85F64-5717-4562-B3FC-2C963F66AFA6";
 
   state: ChatsState = {
@@ -27,43 +24,46 @@ class MessagePageModule extends React.Component<{},ChatsState> {
 
   componentDidMount(): void {
     ChatService.getInterlocutors(this.userFrom)
-      .then((response: AxiosResponse<string[]>) => {
+      .then((response: AxiosResponse<ChatView[]>) => {
         console.log(response);
 
         let chatArray = new Array<ChatView>();
 
         for (let i = 0; i < response.data.length; i++) {
-          if (!chatArray.includes({userId: response.data[i]})) {
-            chatArray.push({userId: response.data[i]});
+          let currentEntry = {
+            userId: response.data[i].userId,
+            userToName: response.data[i].userToName,
+          };
+
+          if (!chatArray.includes(currentEntry)) {
+            chatArray.push(currentEntry);
           }
         }
 
         console.log(chatArray);
 
         return this.setState({
-          chats: chatArray
-        })
+          chats: chatArray,
+        });
       })
       .catch((err: any) => console.log(err));
   }
 
   render() {
-    for (let i = 0; i < this.state.chats.length; i++) {
-      
-    }
-
+    let i = 0;
     this.state.chats.forEach((chat: ChatView) => {
-      console.log(chat.userId);
-      this.i++;
+      i++;
 
-      this.htmlChats.push(<ChatElement userId={chat.userId} key={this.i} />);
+      if (this.htmlChats.length < this.state.chats.length) {
+        this.htmlChats.push(
+          <ChatElement
+            userToName={chat.userToName}
+            userId={chat.userId}
+            key={i}
+          />
+        );
+      }
     });
-
-    this.htmlChats = this.htmlChats.filter((element, index) => {
-      return this.htmlChats.indexOf(element) === index;
-    });
-
-    console.log(this.htmlChats);
 
     return <Container className="message-page">{this.htmlChats}</Container>;
   }
