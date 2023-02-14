@@ -21,7 +21,7 @@ const ChatModule = () => {
   const location = useLocation();
 
   useEffect(() => {
-    ChatService.getChat(location.pathname.slice(10)).then(
+    () => ChatService.getChat(location.pathname.slice(10)).then(
       (response: AxiosResponse<Chat>) => {
         setState((chat) => {
           return {
@@ -31,15 +31,15 @@ const ChatModule = () => {
           };
         });
 
-        // chat?.messages.forEach((message: Message) => {
-        //   htmlMessages.push(
-        //     <MessageElement
-        //       userToName={chat.sender}
-        //       createdDate={message.createdDate}
-        //       content={message.content}
-        //     />
-        //   );
-        // });
+        chat?.messages.forEach((message: Message) => {
+          htmlMessages.push(
+            <MessageElement
+              userToName={chat.sender}
+              createdDate={message.createdDate}
+              content={message.content}
+            />
+          );
+        });
       }
     );
   });
