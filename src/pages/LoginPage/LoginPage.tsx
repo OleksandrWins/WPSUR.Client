@@ -1,42 +1,68 @@
-import React, { useState } from "react";
-import { Container } from "react-bootstrap";
-
-const Credentials = {
-  login: "",
-}
+import React, { ChangeEvent, FormEvent, useState } from "react";
+import { Container, Form, Row } from "react-bootstrap";
+import axios from "axios";
 
 const LoginPage = () => {
+  
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const mystyle = {
+    color: "white",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100vh',
+    padding: "10px",
+    fontFamily: "Arial"
+  };
 
-  const [formData, setLogin] = useState(Credentials);
-  const { login } = formData;
+  const handleSubmit = (event: FormEvent) => {
+    loginUser(email,password);
+  };
 
-  const onChange= (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLogin((prevState) => ({
-      ...prevState,
-      [e.target.id]: e.target.value
-    }))
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+  
+  const loginUser = async (login: string, password: string) => {
+
+    var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+var data = JSON.stringify({
+  "email": email,
+  "password": password
+});
+
+var result = await axios.post('http://localhost:5164/api/Account/Login', data, {
+  headers: {
+      'Content-Type': 'application/json',
   }
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => { 
-    e.preventDefault();
-
-    debugger;
-
-    loginUser(formData.login);
-  }
-
-  const loginUser = (login: string) => {
-    console.log(login)
-
-    localStorage.setItem("token", login)
-  }
-
+}
+).then((response) => {
+            localStorage.setItem("token", response.data);
+         });
+   };
+    
   return(
     <Container>
-      <form action="" onSubmit={onSubmit}>
-      <input type="text" id="login" onChange={onChange}/>
-      <button type="submit" className="btn btn-primary" >Submit</button>
+      <div style = {mystyle}>
+      <form onSubmit={handleSubmit}>
+        <p>
+<input type="text" id="login" placeholder="Email" onChange={handleEmailChange} value={email} />
+        </p>
+      <p>
+<input type="text" placeholder="Password" id="password" onChange={handlePasswordChange} value={password}/>
+      </p>
+      <p>
+<button type="submit" className="btn btn-primary">Login</button>
+      </p>
       </form>
+        </div> 
     </Container>
   );
 }
