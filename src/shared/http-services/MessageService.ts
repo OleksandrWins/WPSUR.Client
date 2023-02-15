@@ -6,7 +6,7 @@ import HttpServiceBase from "./HttpServiceBase";
 const createMessage = (request: CreateMessageRequest): Promise<AxiosResponse<Message>> => {
   return HttpServiceBase.Post<CreateMessageRequest, Message>(
     request,
-    `api/Message/createMessage`
+    `Message/createMessage`
   )
 }
 

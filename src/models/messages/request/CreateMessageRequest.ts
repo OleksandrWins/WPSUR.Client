@@ -1,6 +1,5 @@
 interface CreateMessageRequest { 
   content: string;
-  userFrom: string;
   userTo: string;
 }
 

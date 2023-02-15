@@ -2,6 +2,8 @@ import React from "react";
 import { Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ChatView from "../../../../models/chats/ChatView";
+import "./style.css";
+
 
 class ChatElement extends React.Component<ChatView> {
   constructor(props: ChatView) {
@@ -10,20 +12,19 @@ class ChatElement extends React.Component<ChatView> {
 
   state: ChatView = {
     userId: "",
-    userToName: "",
+    userToFirstName: "",
+    userToLastName: "",
   };
 
   render() {
     return (
-      <Container>
         <Row>
-          <Container>
-            <Link to={`${this.props.userId}`}>
-              {this.props.userToName}
+          <Container className="theme-container">
+            <Link className="font-poppins-600 chat-menu-font" to={`${this.props.userId}`}>
+              {this.props.userToFirstName} {this.props.userToLastName}
             </Link>
           </Container>
         </Row>
-      </Container>
     );
   }
 }

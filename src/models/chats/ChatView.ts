@@ -1,6 +1,7 @@
 interface ChatView { 
   userId: string,
-  userToName: string,
+  userToFirstName: string,
+  userToLastName: string,
 }
 
 export default ChatView;
