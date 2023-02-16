@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { Style } from "util";
 import MessageView from "../../../../models/messages/MessageView";
 import "./style.css";
 
@@ -8,22 +9,22 @@ const MessageElement = (message: MessageView) => {
     console.log(1);
   });
 
+  const incomeMessageStyle = {
+    backgroundColor: "#6998C2",
+    border: "5px solid #7694A4",
+    color: "#FDFDFA",
+  };
+
+  const outcomeMessageStyle = {
+    backgroundColor: "#FDFDFA",
+    border: "5px solid #BDBCAC",
+    color: "#175A9B",
+  };
+
   return (
     <Row>
       <Container
-        style={
-          message.isReceiver
-            ? {
-                backgroundColor: "#6998C2",
-                border: "5px solid #7694A4",
-                color: "#FDFDFA",
-              }
-            : {
-                backgroundColor: "#FDFDFA",
-                border: "5px solid #BDBCAC",
-                color: "#175A9B",
-              }
-        }
+        style={message.isReceiver ? incomeMessageStyle : outcomeMessageStyle}
         className="message-container"
       >
         <Row>
