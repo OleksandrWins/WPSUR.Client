@@ -4,7 +4,7 @@ import { Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import SearchLogo from "../../../assets/svg/SearchLogo/searchLogo";
 import ChatView from "../../../models/chats/ChatView";
 import ChatService from "../../../shared/http-services/ChatService";
-import ChatElement from "./ChatElement/ChatElement";
+import ChatElement from "./ChatElement/chatElement";
 import "./style.css";
 
 type ChatsState = {

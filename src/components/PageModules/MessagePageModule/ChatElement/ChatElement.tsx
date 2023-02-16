@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import ChatView from "../../../../models/chats/ChatView";
 import "./style.css";
 
-
 class ChatElement extends React.Component<ChatView> {
   constructor(props: ChatView) {
     super(props);

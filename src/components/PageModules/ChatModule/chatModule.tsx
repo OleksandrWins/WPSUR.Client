@@ -77,10 +77,7 @@ const ChatModule = () => {
   ): JSX.Element[] => {
     let isMessageExist: JSX.Element | null =
       prevState.find((htmlMessage: JSX.Element) => {
-        return (
-          htmlMessage.props.id === htmlMessageElement.props.id &&
-          htmlMessage.props.id !== ""
-        );
+        return htmlMessage.props.id === htmlMessageElement.props.id && htmlMessage.props.id !== "";
       }) ?? null;
 
     if (isMessageExist) {
@@ -121,16 +118,21 @@ const ChatModule = () => {
       );
     });
 
-    window.scrollTo(0, document.body.scrollHeight);
+    let das = document.getElementById("");
 
-    MessageService.createMessage(createMessageRequest)
-      .then()
-      .catch((error) => console.log(error));
+    if (das === null) {
+      return;
+    }
+
+    das.scrollTo(0, document.body.scrollHeight);
+
+    MessageService.createMessage(createMessageRequest).then().catch((error) => console.log(error));
   };
 
   ConnectionProvider.hubConnection.on(
     "ReceiveMessage",
     (messageToGet: Message) => {
+
       console.log(messageToGet);
       if (chat.sender.userId !== messageToGet.userTo) {
         return;
@@ -152,9 +154,7 @@ const ChatModule = () => {
             userFromLastName={
               isUserFromReceiver ? chat.receiver.userLastName : "error"
             }
-            createdDate={ConvertDateService.convertDate(
-              messageToGet.createdDate
-            )}
+            createdDate={ConvertDateService.convertDate(messageToGet.createdDate)}
             content={messageToGet.content}
             id={messageToGet.id}
             key={prevState.length}

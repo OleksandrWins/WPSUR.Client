@@ -6,7 +6,6 @@ import "../../styles/custom.css";
 import MessagePageModule from "../../components/PageModules/MessagePageModule/messagePageModule";
 import MainPageModule from "../../components/PageModules/MainPageModule/mainPageModule";
 import ChatModule from "../../components/PageModules/ChatModule/chatModule";
-import "./styles.css"
 
 const MainPage = () => {
   return <Container>

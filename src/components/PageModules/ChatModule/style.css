@@ -4,8 +4,9 @@
 }
 
 .chat-history-row { 
-  padding-top: 23% !important;
+  padding-top: 22% !important;
   padding-bottom: 15% !important;
+  height: 63% !important;
 }
 
 .chat-input {
@@ -40,7 +41,7 @@
 
 .receiver-logo {
   position:fixed !important;
-  margin: 2.5% 11.8% !important;
+  margin: 2.5% 15% !important;
   padding: 1% 5% !important;
   text-align: center;
   border-radius: 30px;
@@ -60,7 +61,7 @@
 
 .send-button { 
   position: fixed;
-  right: 35%;
+  right: 34%;
   bottom: 4%;
   background-color: transparent !important;
   border-color: transparent !important;
