@@ -21,10 +21,6 @@ const App = () => {
     return false;
   }
 
-  useEffect(() => {
-    isAuthenticated();
-  });
-
   return (
     <BrowserRouter>
         <Routes>

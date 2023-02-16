@@ -8,7 +8,6 @@ const Credentials = {
 const LoginPage = () => {
 
   const [formData, setLogin] = useState(Credentials);
-  const { login } = formData;
 
   const onChange= (e: React.ChangeEvent<HTMLInputElement>) => {
     setLogin((prevState) => ({

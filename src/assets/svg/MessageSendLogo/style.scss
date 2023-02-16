@@ -1,0 +1,37 @@
+.message-send-logo {
+  padding: 0%;
+
+  fill: #FDFCEE;
+}
+
+.a { 
+  fill:"#FDFCEE";
+}
+
+.b { 
+  stroke: #175A9B;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.c { 
+  fill: #6998C2;
+  stroke: #175A9B;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.message-send-logo:hover, .a:hover { 
+  .c {
+    fill: #175A9B !important;
+    transition: fill 0.4s ease-in-out;
+  }
+
+  .b { 
+    stroke: none;
+    transition: fill 0.2 ease-in-out
+  }
+
+  fill: #F3B73B;
+  transition: fill 0.2s ease-in-out;
+}

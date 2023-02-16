@@ -51,4 +51,20 @@ a:hover {
   cursor: pointer !important;  
 }
 
+body {
+  background-color: #F2F1E6 !important;
+}
+
+.form-control {
+  border-radius: 35px !important;
+}
+
+.form-control:focus {
+  background-color: #fff;
+  border-color: #175A9B !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  transition: border-color .4s ease-in-out,box-shadow .4s ease-in-out;
+}
+
 @import "bootstrap/dist/css/bootstrap.min.css";
