@@ -3,13 +3,14 @@
   border: 5px solid #BDBCAC !important;
   color: #175A9B !important;
   border-radius: 35px;
-  padding: 5% 15%;
-  width: 50% !important;
-  margin-top: 48px;
+  padding: 3% 10%;
+  width: 60% !important;
+  text-align: center;
+  margin-top: 48px !important;
 }
 
 .chat-menu-font { 
-  font-size: 25px !important; 
+  font-size: 30px !important; 
   line-height: 38px !important;
   text-decoration-line: underline !important;
   

@@ -1,7 +1,8 @@
 interface ChatView { 
-  userId: string,
-  userToFirstName: string,
-  userToLastName: string,
+  receiverId: string,
+  receiverFirstName: string,
+  receiverLastName: string,
+  receiverEmail: string,
 }
 
 export default ChatView;

@@ -10,17 +10,18 @@ class ChatElement extends React.Component<ChatView> {
   }
 
   state: ChatView = {
-    userId: "",
-    userToFirstName: "",
-    userToLastName: "",
+    receiverId: "",
+    receiverFirstName: "",
+    receiverLastName: "",
+    receiverEmail: ""
   };
 
   render() {
     return (
         <Row>
           <Container className="theme-container">
-            <Link className="font-poppins-600 chat-menu-font" to={`${this.props.userId}`}>
-              {this.props.userToFirstName} {this.props.userToLastName}
+            <Link className="font-poppins-600 chat-menu-font" to={`${this.props.receiverId}`}>
+              {this.props.receiverFirstName} {this.props.receiverLastName}
             </Link>
           </Container>
         </Row>

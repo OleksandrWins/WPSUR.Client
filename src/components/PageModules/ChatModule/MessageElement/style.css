@@ -2,8 +2,8 @@
   background-color: #FDFDFA;
   border: 5px solid #BDBCAC;
   border-radius: 35px;
-  margin: 1em 2em;
-  width: 92%;
+  margin: 1em 2em !important;
+  width: 90% !important;
 }
 
 .sender-data { 

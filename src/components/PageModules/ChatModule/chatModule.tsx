@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useLocation } from "react-router";
 import MessageSendLogo from "../../../assets/svg/MessageSendLogo/messageSendLogo";
@@ -13,6 +13,7 @@ import MessageElement from "./MessageElement/messageElement";
 import "./style.css";
 import Moment from "moment";
 import ConvertDateService from "../../../shared/ConvertDataServices/ConvertDateService";
+import React from "react";
 
 const ChatModule = () => {
   const [chat, setChatState] = useState<Chat>({
@@ -41,8 +42,6 @@ const ChatModule = () => {
 
   const convertToHtmlMessages = (chatInput: Chat) => {
     let messagesCollection: Array<JSX.Element> = [];
-
-    chatInput.messages.sort();
 
     chatInput?.messages.forEach((message: Message) => {
       let isUserFromSender: boolean = chat.sender.userId === message.userFrom;
@@ -77,7 +76,10 @@ const ChatModule = () => {
   ): JSX.Element[] => {
     let isMessageExist: JSX.Element | null =
       prevState.find((htmlMessage: JSX.Element) => {
-        return htmlMessage.props.id === htmlMessageElement.props.id && htmlMessage.props.id !== "";
+        return (
+          htmlMessage.props.id === htmlMessageElement.props.id &&
+          htmlMessage.props.id !== ""
+        );
       }) ?? null;
 
     if (isMessageExist) {
@@ -118,27 +120,24 @@ const ChatModule = () => {
       );
     });
 
-    let das = document.getElementById("");
-
-    if (das === null) {
-      return;
-    }
-
-    das.scrollTo(0, document.body.scrollHeight);
-
-    MessageService.createMessage(createMessageRequest).then().catch((error) => console.log(error));
+    MessageService.createMessage(createMessageRequest)
+      .then()
+      .catch((error) => console.log(error));
   };
+
+  // ConnectionProvider.hubConnection.on(
+  //   "UpdateMessage",
+  //   (messageToUpdate:Message) => { 
+  //     if 
+  //   }
+  // )
 
   ConnectionProvider.hubConnection.on(
     "ReceiveMessage",
     (messageToGet: Message) => {
-
-      console.log(messageToGet);
       if (chat.sender.userId !== messageToGet.userTo) {
         return;
       }
-
-      console.log("messageToGet");
 
       let isUserFromReceiver: boolean =
         messageToGet.userFrom === chat.receiver.userId;
@@ -154,7 +153,9 @@ const ChatModule = () => {
             userFromLastName={
               isUserFromReceiver ? chat.receiver.userLastName : "error"
             }
-            createdDate={ConvertDateService.convertDate(messageToGet.createdDate)}
+            createdDate={ConvertDateService.convertDate(
+              messageToGet.createdDate
+            )}
             content={messageToGet.content}
             id={messageToGet.id}
             key={prevState.length}
@@ -164,30 +165,51 @@ const ChatModule = () => {
     }
   );
 
+  const isHtmlMessagesEmpty = (): boolean => { 
+    return htmlMessages.length === 0;
+  }
+
+  const splashScreenStyle: CSSProperties = {
+    paddingTop: "25%",
+    paddingBottom: "12%",
+    textAlign: "center",
+    fontFamily: "Poppins, sans-serif",
+    fontSize: "36px",
+    color: "#7694A4",
+    fontWeight: "600",
+  }
+
+  const chatHistoryStyle: CSSProperties = { 
+    position: "absolute",
+  }
+
+  const splashScreenText: string = "Type a message to start the dialog.";
+
   return (
     <Container className="chat-page">
-      <Row>
+      <Row className="header-chat-page">
         <Container className="background-receiver-logo">
+          <Row className="m-0 justify-content-center">
           <Container className="receiver-logo font-poppins-700">
             {chat.receiver.userFirstName} {chat.receiver.userLastName}
           </Container>
+          </Row>
         </Container>
       </Row>
-      <Row className="chat-history-row">
-        <Container className="chat-history">{htmlMessages}</Container>
+      <Row id="chat-page-id" className="chat-history-row">
+        <Container className="chat-history" style={isHtmlMessagesEmpty() ? splashScreenStyle : undefined}>{isHtmlMessagesEmpty() ? splashScreenText : htmlMessages}</Container>
       </Row>
-      <Row className="chat-input">
+      <Row style={isHtmlMessagesEmpty() ? undefined : chatHistoryStyle} className="chat-input">
         <Container className="background-form">
           <Form onSubmit={(event) => onSubmit(event)}>
-            <Row className="form-row">
-              <Container className="input-col">
+            <Row className="form-row justify-content-center">
+              <Container className="message-input-col">
                 <Form.Control
                   className="message-input-control"
                   id="message-input"
                   value={messageValue}
                   onChange={(event) => setMessageState(event.target.value)}
                   type="text"
-                  placeholder="Type some message."
                 />
               </Container>
               <Container className="button-col">

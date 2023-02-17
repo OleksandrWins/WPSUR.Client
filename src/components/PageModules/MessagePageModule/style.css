@@ -12,6 +12,8 @@
 
 .message-page { 
   background-color: #f2f1e6 !important;
+  overflow-y: scroll;
+  height: 100%;
 }
 
 .chat-search-input {
@@ -31,13 +33,20 @@
 .chat-search-input-control {
   border-radius: 5px !important;
   background-color: #fdfcee !important;
+  color: #4c83a1 !important;
+  font-size: 20px !important;
 }
 
 .chat-search-input-control::placeholder {
   font-family: 'Poppins' !important;
   font-style: normal !important;
   font-weight: 600 !important;
-  font-size: 24px !important;
+  font-size: 20px !important;
   line-height: 36px !important;
   color: #7694a4 !important;
+}
+
+.search-chat-button { 
+  background-color: transparent !important;
+  border: transparent !important;
 }

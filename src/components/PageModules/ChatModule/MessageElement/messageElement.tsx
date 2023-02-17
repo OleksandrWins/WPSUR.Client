@@ -1,13 +1,18 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Style } from "util";
 import MessageView from "../../../../models/messages/MessageView";
 import "./style.css";
 
 const MessageElement = (message: MessageView) => {
-  useEffect(() => {
-    console.log(1);
-  });
+  
+  const messageRef = React.useRef<HTMLInputElement>(null);
+
+  useEffect(() => { 
+    if (messageRef.current) { 
+      messageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messageRef])
 
   const incomeMessageStyle = {
     backgroundColor: "#6998C2",
@@ -22,7 +27,7 @@ const MessageElement = (message: MessageView) => {
   };
 
   return (
-    <Row>
+    <Row ref={messageRef}>
       <Container
         style={message.isReceiver ? incomeMessageStyle : outcomeMessageStyle}
         className="message-container"
@@ -31,9 +36,9 @@ const MessageElement = (message: MessageView) => {
           <Col md={1}>pic</Col>
           <Col md={11}>
             <Row>
-              <Col md={4} className="sender-data font-poppins-600">
+              <Container className="sender-data font-poppins-600">
                 {message.userFromFirstName} {message.userFromLastName}
-              </Col>
+              </Container>
             </Row>
             <Row>
               <Container className="message-content font-poppins-400">

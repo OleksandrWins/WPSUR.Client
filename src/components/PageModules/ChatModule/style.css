@@ -1,48 +1,42 @@
 
 .chat-page { 
   background-color: #F2F1E6 !important;
+  height: 100%;
+  overflow-y: scroll !important;
 }
 
-.chat-history-row { 
-  padding-top: 22% !important;
-  padding-bottom: 15% !important;
-  height: 63% !important;
+.header-chat-page { 
+  position: sticky;
+  height: auto !important;
 }
 
 .chat-input {
-  position: fixed;
+  position: sticky;
   bottom: 0;
-  width: 48.5%;
-}
-
-.form-row {
-  justify-content: space-between;
-}
-
-.button-col {
-  width: auto;
+  width: 100%;
 }
 
 .background-form { 
   background-color: #f2f1e6;
   z-index: 2;
+  height: 10% !important;
   padding: 5% 7% 5% 5%; 
-  width: 101.8% !important;
+  width: 100% !important;
 }
 
 .background-receiver-logo { 
+  margin-top: 7.4% !important;
+  margin-bottom: 4% !important;
   padding: 0 !important;
   background-color: #f2f1e6;
-  height: 22% !important;
-  width: 49% !important;
+  height: 100% !important;
+  width: 100% !important;
   z-index: 2;
-  position: fixed;
 }
 
 .receiver-logo {
-  position:fixed !important;
-  margin: 2.5% 15% !important;
-  padding: 1% 5% !important;
+  display: flex !important;
+  padding: 2.5% 11.8% !important;
   text-align: center;
   border-radius: 30px;
   width: auto !important;
@@ -55,17 +49,36 @@
 }
 
 .message-input-control { 
-  height: 150% !important;
-  width: 95% !important;
+  height: 100% !important;
+}
+
+.message-input-col { 
+  height: 50px;
+}
+
+.chat-history-row { 
+  margin-bottom: 20%;
+}
+
+.button-col {
+  width: fit-content !important;
+  height: fit-content !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute;
+  right: 15.5%;
+  bottom: 39%;
+}
+
+.message-input-col { 
+  width: 75% !important;
 }
 
 .send-button { 
-  position: fixed;
-  right: 34%;
-  bottom: 4%;
   background-color: transparent !important;
   border-color: transparent !important;
   width: fit-content !important;
   height: fit-content !important;
   padding: 0 !important;
+  bottom: 50% !important;
 }

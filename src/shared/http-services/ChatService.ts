@@ -13,9 +13,16 @@ const getChat = (userTo: string): Promise<AxiosResponse<Chat>> => {
   );
 };
 
+const findInterlocutor = (email: string): Promise<AxiosResponse<ChatView[]>> => {
+  return HttpServiceBase.Get<ChatView[]>(
+    `Chat/findChat?email=${email}`
+  )
+}
+
 const ChatService = {
   getInterlocutors,
   getChat,
+  findInterlocutor,
 };
 
 export default ChatService;
