@@ -4,6 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import HomeLogo from "../../../assets/svg/HomeLogo/home";
 import { MessageLogo } from "../../../assets/svg/MessagesLogo/messageLogo";
 import "../../../styles/fonts/font.css";
+import MainTagSection from "./mainTagSection";
 import "./styles.css";
 
 const NavMenu = () => {
@@ -63,7 +64,16 @@ const NavMenu = () => {
           <span>Calendar</span>
         </NavLink>
       </Row>
+      <Row className="discused-topics">
+      <div>
+        Most discussed topics:
+      </div>
+      </Row>
+      <Row className="list-of-topics">
+      <Row className="nav-menu-row my-5"><MainTagSection /></Row>
+        </Row>
     </Container>
+
   );
 };
 

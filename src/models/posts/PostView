@@ -1,0 +1,13 @@
+import { ListFormat } from "typescript";
+
+interface PostView { 
+  title: string;
+  body: string;
+  mainTag: string;
+  subTags: ListFormat;
+  createdBy: string;
+  updatedDate?: Date;
+  createdDate: Date
+}
+
+export default PostView;
