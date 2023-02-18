@@ -13,6 +13,8 @@ const MainPage = () => {
       <Col className="main-container">
         <Routes>
           <Route path="/home" element={<MainPageModule />}/>
+          <Route path="/home/:mainTagId" element={<MainPageModule />}/>
+          <Route path="/home/:mainTagId/:subTagId" element={<MainPageModule />}/>
           <Route path="/messages" element={<MessagePageModule />}/>
           <Route path="*" element={<Navigate to="/home"/>}/>
         </Routes>
