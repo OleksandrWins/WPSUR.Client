@@ -13,11 +13,8 @@ import RegisterPage from "./pages/RegisterPage/registerPage";
 const App = () => {
   function isAuthenticated(): boolean {
     if (localStorage.getItem("token")) {
-      console.log("true");
       return true;
     }
-    console.log("false");
-
     return false;
   }
 
