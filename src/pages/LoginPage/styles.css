@@ -1,0 +1,7 @@
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:55vh;
+    margin: 5%;
+}

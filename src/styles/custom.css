@@ -51,4 +51,8 @@ a:hover {
   cursor: pointer !important;  
 }
 
+body { 
+  background-color: #F2F1E6 !important;
+}
+
 @import "bootstrap/dist/css/bootstrap.min.css";

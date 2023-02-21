@@ -1,70 +1,75 @@
 import { AxiosResponse } from "axios";
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Button, Col, Container, Form, Row} from "react-bootstrap";
-import "../../styles/custom.css";
+import React, { ChangeEvent, FormEvent, useState } from "react";
+import { Button, Container, Form } from "react-bootstrap";
+import "./styles.css";
 import AuthService from "../../shared/http-services/AuthService";
-import { Navigate, useNavigate } from "react-router";
-
+import { Link } from "react-router-dom";
+import LoginRequest from "../../models/users/requests/loginRequest";
 
 const LoginPage = () => {
-  
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [token, setToken] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-  const navigate = useNavigate();
-
-  //useEffect(()=>{navigate('/*',{replace : true})},[token])
   const handleSubmit = (event: FormEvent) => {
-    loginUser(email,password);
+    event.preventDefault();
+    loginUser(email, password);
   };
 
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+  const loginUser = (email: string, password: string) => {
+    let LoginCredentials : LoginRequest = {
+      email: email,
+      password: password,
+    };
+
+    AuthService.loginUser(LoginCredentials)
+      .then((response: AxiosResponse<string>) => {
+        console.log(response.status);
+        localStorage.setItem("token", response.data);
+        window.location.reload();
+        
+      }).catch((err: Error) => console.log(err));
+      
   };
 
-  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-  
-  const loginUser = (login: string, password: string) => {
-  var data = JSON.stringify({
-  "email": email,
-  "password": password});
+  return (
+    <Container className="login">
+      <Form onSubmit={handleSubmit}>
+        <Link role="button" to="/sign-up">
+          {" "}
+          Sign up
+        </Link>
 
-  AuthService.loginUser(data)
-  .then((response: AxiosResponse<string>) => {
-    console.log(response);
-    localStorage.setItem("token",response.data);
-    setToken(response.data);
-  })
-  .catch((err: any) => console.log(err));
-}
+        <br />
 
-  return(
-    <Container>
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter your email"
+            onChange={(event) => setEmail(event.target.value)}
+            value={email}/>
+        </Form.Group>
 
-<Row>
-        <Col />
-        <Col><Form className="justify-content-center">
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" onChange={handleEmailChange} value={email} />
-      </Form.Group>
+        <br />
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" onChange={handlePasswordChange} value={password} />
-      </Form.Group>
-      <Button variant="primary" type="submit" onClick={handleSubmit}>
-        Submit
-      </Button>
-    </Form>
-    </Col>
-        <Col />
-        </Row>
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Enter last name"
+            onChange={(event) => setPassword(event.target.value)}
+            value={password}
+          />
+        </Form.Group>
+
+        <br />
+
+        <Button type="submit">
+          Submit
+        </Button>
+      </Form>
     </Container>
   );
-  }
+};
 
 export default LoginPage;
