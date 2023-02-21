@@ -12,7 +12,11 @@ const Post = <T, Y>(payload: T, url: string): Promise<AxiosResponse<Y>> => {
   return http.post<Y>(`${baseURL}/api/${url}`, payload);
 };
 
-const Delete = <T, Y>(payload: T, url: string): Promise<AxiosResponse<Y>> => {
+const Put = <P, R>(payload: P, url: string): Promise<AxiosResponse<R>> => { 
+  return http.put<R>(`${baseURL}/api/${url}`, payload);
+}
+
+const Delete = <T, Y>(url: string, payload?: T): Promise<AxiosResponse<Y>> => {
   return http.delete<Y>(`${baseURL}/api/${url}`, {
     data: payload,
   });
@@ -26,6 +30,7 @@ const HttpServiceBase = {
   Get,
   Post,
   Delete,
+  Put,
 };
 
 export const ConnectionProvider = {

@@ -5,7 +5,7 @@ interface MessageView {
   updatedDate?: Date;
   content: string;
   id: string;
-  isReceiver: boolean;
+  isIncome: boolean;
 } 
 
 export default MessageView;

@@ -53,7 +53,7 @@ const NavMenu = () => {
           </NavLink>
         </Container>
       </Row>
-      <Row className="row-nav-menu">
+      {/* <Row className="row-nav-menu">
         <NavLink id="notification" className="menu-item" to="*">
           <span>Notification</span>
         </NavLink>
@@ -62,7 +62,7 @@ const NavMenu = () => {
         <NavLink id="calendar" className="menu-item" to="*">
           <span>Calendar</span>
         </NavLink>
-      </Row>
+      </Row> */}
     </Container>
   );
 };

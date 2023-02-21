@@ -1,15 +1,15 @@
 import { AxiosResponse } from "axios";
+import LoginRequest from "../../models/users/requests/LoginRequest";
 import HttpServiceBase from "./HttpServiceBase";
 
-const loginUser = (request: string): Promise<AxiosResponse<string>> => {
-    return HttpServiceBase.Post(
-      request,
-      `Account/Login`
-    )
-  }
+const LoginUser = (
+  request: LoginRequest
+): Promise<AxiosResponse<string>> => {
+  return HttpServiceBase.Post<LoginRequest, string>(request, "Account/Login");
+};
 
 const AuthService = {
-  loginUser,
+  LoginUser,
 };
 
 export default AuthService;

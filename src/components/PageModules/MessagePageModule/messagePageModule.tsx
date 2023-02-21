@@ -106,7 +106,7 @@ const MessagePageModule = () => {
                 </InputGroup.Text>
                 <Form.Control
                   onChange={(event) => setEmailToFind(event.target.value)}
-                  placeholder="find chat"
+                  placeholder="find chat by email"
                   id="chat-search-control"
                   type="text"
                   className="chat-search-input-control font-poppins-600"

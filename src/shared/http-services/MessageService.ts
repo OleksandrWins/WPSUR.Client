@@ -1,17 +1,25 @@
 import { AxiosResponse } from "axios";
-import Message from "../../models/messages/Message";
-import CreateMessageRequest from "../../models/messages/request/CreateMessageRequest";
+import CreateMessageRequest from "../../models/messages/request/createMessageRequest";
+import UpdateMessageRequest from "../../models/messages/request/updateMessageRequest";
 import HttpServiceBase from "./HttpServiceBase";
 
-const createMessage = (request: CreateMessageRequest): Promise<AxiosResponse<Message>> => {
-  return HttpServiceBase.Post<CreateMessageRequest, Message>(
+const createMessage = (request: CreateMessageRequest): Promise<AxiosResponse<string>> => {
+  return HttpServiceBase.Post<CreateMessageRequest, string>(
     request,
     `Message/createMessage`
   )
 }
 
+const updateMessage = (request: UpdateMessageRequest): Promise<AxiosResponse> => { 
+  return HttpServiceBase.Put(
+    request,
+    'Message/updateMessage'
+  )
+}
+
 const MessageService = {
   createMessage,
+  updateMessage,
 }
 
 export default MessageService;

@@ -1,19 +1,21 @@
 import { AxiosResponse } from "axios";
 import { CSSProperties, useEffect, useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { useLocation } from "react-router";
+import { Button, Container, Form, Row } from "react-bootstrap";
 import MessageSendLogo from "../../../assets/svg/MessageSendLogo/messageSendLogo";
 import Chat from "../../../models/chats/Chat";
 import Message from "../../../models/messages/Message";
-import CreateMessageRequest from "../../../models/messages/request/CreateMessageRequest";
+import CreateMessageRequest from "../../../models/messages/request/createMessageRequest";
 import ChatService from "../../../shared/http-services/ChatService";
 import { ConnectionProvider } from "../../../shared/http-services/HttpServiceBase";
 import MessageService from "../../../shared/http-services/MessageService";
 import MessageElement from "./MessageElement/messageElement";
 import "./style.css";
 import Moment from "moment";
-import ConvertDateService from "../../../shared/ConvertDataServices/ConvertDateService";
 import React from "react";
+import UpdateMessageNotification from "../../../models/messages/notifications/updateMessage";
+import ConvertDateService from "../../../shared/convertDataServices/convertDateService";
+import { useLocation } from "react-router-dom";
+import LoadingSpinner from "../../../elements/loadingElement";
 
 const ChatModule = () => {
   const [chat, setChatState] = useState<Chat>({
@@ -23,6 +25,7 @@ const ChatModule = () => {
   });
   const [messageValue, setMessageState] = useState<string>("");
   const [htmlMessages, setHtmlMessages] = useState<Array<JSX.Element>>([]);
+  const [isLoading, setLoadingState] = useState<boolean>(false);
 
   const location = useLocation();
 
@@ -34,6 +37,7 @@ const ChatModule = () => {
   const retrieveChat = () => {
     ChatService.getChat(location.pathname.slice(10))
       .then((response: AxiosResponse<Chat>) => {
+        console.log(response);
         setChatState(response.data);
         convertToHtmlMessages(chat);
       })
@@ -48,7 +52,7 @@ const ChatModule = () => {
 
       messagesCollection.push(
         <MessageElement
-          isReceiver={!isUserFromSender}
+          isIncome={!isUserFromSender}
           userFromFirstName={
             isUserFromSender
               ? chat.sender.userFirstName
@@ -94,9 +98,12 @@ const ChatModule = () => {
   const onSubmit = (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
 
+    setLoadingState(true);
+
     console.log(messageValue);
 
     if (messageValue === "") {
+      setLoadingState(false);
       return;
     }
 
@@ -105,32 +112,74 @@ const ChatModule = () => {
       content: messageValue,
     };
 
-    setHtmlMessages((value: JSX.Element[]) => {
-      return setHtmlMessagesDynamic(
-        value,
-        <MessageElement
-          isReceiver={false}
-          userFromFirstName={chat.sender.userFirstName}
-          userFromLastName={chat.sender.userLastName}
-          createdDate={ConvertDateService.convertDate(Moment().toDate())}
-          content={createMessageRequest.content}
-          id=""
-          key={value.length}
-        />
-      );
-    });
+    setTimeout(
+      () =>
+        MessageService.createMessage(createMessageRequest)
+          .then((messageId: AxiosResponse<string>) => {
+            setHtmlMessages((messageViewCollection: JSX.Element[]) => {
+              setLoadingState(false);
+              return setHtmlMessagesDynamic(
+                messageViewCollection,
+                <MessageElement
+                  isIncome={false}
+                  userFromFirstName={chat.sender.userFirstName}
+                  userFromLastName={chat.sender.userLastName}
+                  createdDate={ConvertDateService.convertDate(
+                    Moment().toDate()
+                  )}
+                  content={createMessageRequest.content}
+                  id={messageId.data}
+                  key={messageViewCollection.length}
+                />
+              );
+            });
+          })
+          .catch((error) => console.log(error)),
+      500
+    );
 
-    MessageService.createMessage(createMessageRequest)
-      .then()
-      .catch((error) => console.log(error));
+    setMessageState("");
   };
 
-  // ConnectionProvider.hubConnection.on(
-  //   "UpdateMessage",
-  //   (messageToUpdate:Message) => { 
-  //     if 
-  //   }
-  // )
+  ConnectionProvider.hubConnection.on(
+    "UpdateMessage",
+    (messageToUpdate: UpdateMessageNotification) => {
+      if (chat.sender.userId !== messageToUpdate.receiverId) {
+        return;
+      }
+
+      window.location.reload();
+
+      // setHtmlMessages((prevState: JSX.Element[]) => {
+      //   let elementToUpdate = htmlMessages.find((element: JSX.Element) => {
+      //     console.log([element.props.id, messageToUpdate.messageId]);
+      //     if (element.props.id === messageToUpdate.messageId) {
+      //       return element;
+      //     }
+      //   });
+      //   console.log(elementToUpdate);
+
+      //   if (!elementToUpdate) {
+      //     console.error("An error while updating the message!");
+      //     return prevState;
+      //   }
+
+      //   return setHtmlMessagesDynamic(prevState, elementToUpdate);
+
+      //   // let inputMessage = React.cloneElement(elementToUpdate, {
+      //   //   content: `${messageToUpdate.content}`,
+      //   //   updatedDate: ConvertDateService.convertDate(
+      //   //     messageToUpdate.updatedDate
+      //   //   ),
+      //   // });
+
+      //   // return {
+      //   //   ...prevState,
+      //   //   inputMessage,
+      //   // };
+      // });
+    }
+  );
 
   ConnectionProvider.hubConnection.on(
     "ReceiveMessage",
@@ -146,7 +195,7 @@ const ChatModule = () => {
         return setHtmlMessagesDynamic(
           prevState,
           <MessageElement
-            isReceiver={isUserFromReceiver}
+            isIncome={isUserFromReceiver}
             userFromFirstName={
               isUserFromReceiver ? chat.receiver.userFirstName : "error"
             }
@@ -165,23 +214,23 @@ const ChatModule = () => {
     }
   );
 
-  const isHtmlMessagesEmpty = (): boolean => { 
+  const isHtmlMessagesEmpty = (): boolean => {
     return htmlMessages.length === 0;
-  }
+  };
 
   const splashScreenStyle: CSSProperties = {
-    paddingTop: "25%",
-    paddingBottom: "12%",
+    paddingTop: "20%",
+    paddingBottom: "8%",
     textAlign: "center",
     fontFamily: "Poppins, sans-serif",
     fontSize: "36px",
     color: "#7694A4",
     fontWeight: "600",
-  }
+  };
 
-  const chatHistoryStyle: CSSProperties = { 
+  const chatHistoryStyle: CSSProperties = {
     position: "absolute",
-  }
+  };
 
   const splashScreenText: string = "Type a message to start the dialog.";
 
@@ -190,16 +239,24 @@ const ChatModule = () => {
       <Row className="header-chat-page">
         <Container className="background-receiver-logo">
           <Row className="m-0 justify-content-center">
-          <Container className="receiver-logo font-poppins-700">
-            {chat.receiver.userFirstName} {chat.receiver.userLastName}
-          </Container>
+            <Container className="receiver-logo font-poppins-700">
+              {chat.receiver.userFirstName} {chat.receiver.userLastName}
+            </Container>
           </Row>
         </Container>
       </Row>
       <Row id="chat-page-id" className="chat-history-row">
-        <Container className="chat-history" style={isHtmlMessagesEmpty() ? splashScreenStyle : undefined}>{isHtmlMessagesEmpty() ? splashScreenText : htmlMessages}</Container>
+        <Container
+          className="chat-history"
+          style={isHtmlMessagesEmpty() ? splashScreenStyle : undefined}
+        >
+          {isHtmlMessagesEmpty() ? splashScreenText : htmlMessages}
+        </Container>
       </Row>
-      <Row style={isHtmlMessagesEmpty() ? undefined : chatHistoryStyle} className="chat-input">
+      <Row
+        style={isHtmlMessagesEmpty() ? undefined : chatHistoryStyle}
+        className="chat-input"
+      >
         <Container className="background-form">
           <Form onSubmit={(event) => onSubmit(event)}>
             <Row className="form-row justify-content-center">
@@ -212,10 +269,15 @@ const ChatModule = () => {
                   type="text"
                 />
               </Container>
+
               <Container className="button-col">
-                <Button type="submit" className="send-button">
-                  <MessageSendLogo />
-                </Button>
+                {isLoading ? (
+                  <LoadingSpinner color="#3498db" containerSideSize={24} />
+                ) : (
+                  <Button type="submit" className="send-button">
+                    <MessageSendLogo />
+                  </Button>
+                )}
               </Container>
             </Row>
           </Form>

@@ -20,5 +20,14 @@
 .created-date { 
   padding: 1% 0%;
   font-size: 12px;
+}
 
+.update-message-button { 
+  padding-top: 2%;
+}
+
+.confirm-update { 
+  position: sticky !important;
+  right: 35% !important;
+  top: 35% !important;
 }

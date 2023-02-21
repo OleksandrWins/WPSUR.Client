@@ -1,18 +1,39 @@
-import React, { useEffect } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import { Style } from "util";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Container, Row } from "react-bootstrap";
+import CancelUpdateMessageLogo from "../../../../assets/svg/CancelUpdateMessageLogo/cancelUpdateMessageLogo";
+import UpdateMessageLogo from "../../../../assets/svg/UpdateMessageLogo/updateMessageLogo";
 import MessageView from "../../../../models/messages/MessageView";
 import "./style.css";
+import UpdateMessageInput from "./UpdateMessageInput/updateMessageInput";
 
 const MessageElement = (message: MessageView) => {
-  
   const messageRef = React.useRef<HTMLInputElement>(null);
 
-  useEffect(() => { 
-    if (messageRef.current) { 
+  const [messageEdit, setMessageEditStatus] = useState<boolean>(false);
+  const [messageContentState, setMessageContentState] = useState<string>(
+    message.content
+  );
+
+ 
+  useEffect(() => {
+    if (messageRef.current) {
       messageRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messageRef])
+  }, [messageRef]);
+
+  const updateEditState = (): void => {
+    setMessageEditStatus((prevState: boolean) => !prevState);
+  };
+
+  const updateMessageState = (messageToUpdate: string): void => {
+    setMessageContentState(messageToUpdate);
+  };
+
+  const updateMessage = (event: React.MouseEvent<Element, MouseEvent>) => {
+    event.preventDefault();
+
+    setMessageEditStatus((prevState: boolean) => !prevState);
+  };
 
   const incomeMessageStyle = {
     backgroundColor: "#6998C2",
@@ -29,20 +50,50 @@ const MessageElement = (message: MessageView) => {
   return (
     <Row ref={messageRef}>
       <Container
-        style={message.isReceiver ? incomeMessageStyle : outcomeMessageStyle}
+        style={message.isIncome ? incomeMessageStyle : outcomeMessageStyle}
         className="message-container"
       >
         <Row>
           <Col md={1}>pic</Col>
           <Col md={11}>
             <Row>
-              <Container className="sender-data font-poppins-600">
+              <Col md={10} className="sender-data font-poppins-600">
                 {message.userFromFirstName} {message.userFromLastName}
-              </Container>
+              </Col>
+              <Col md={1} className="update-message-button">
+                {!message.isIncome ? (
+                  <Button
+                    type="button"
+                    className="transparent-button"
+                    onClick={(event: React.MouseEvent<Element, MouseEvent>) =>
+                      updateMessage(event)
+                    }
+                  >
+                    {!messageEdit ? (
+                      <UpdateMessageLogo />
+                    ) : (
+                      <CancelUpdateMessageLogo />
+                    )}
+                  </Button>
+                ) : null}
+              </Col>
             </Row>
             <Row>
-              <Container className="message-content font-poppins-400">
-                {message.content}
+              <Container
+                id="message-content-id"
+                className="message-content font-poppins-400"
+              >
+                {!messageEdit ? (
+                  messageContentState
+                ) : (
+                  <UpdateMessageInput
+                    updateMessageContent={updateMessageState}
+                    updateEditState={updateEditState}
+                    isEdit={messageEdit}
+                    content={messageContentState}
+                    id={message.id}
+                  />
+                )}
               </Container>
             </Row>
             <Row>
