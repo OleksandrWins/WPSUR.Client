@@ -13,25 +13,23 @@ import RegisterPage from "./pages/RegisterPage/registerPage";
 const App = () => {
   function isAuthenticated(): boolean {
     if (localStorage.getItem("token")) {
-      console.log("true");
       return true;
     }
-    console.log("false");
 
     return false;
   }
 
   return (
     <BrowserRouter>
-        <Routes>
-          {isAuthenticated() ? (
-            <Route path="/*" element={<MainPage />} />
-          ) : (
-            <Route path="*" element={<Navigate to="/sign-in" />} />
-          )}
-          {isAuthenticated() ? null : <Route path="/sign-in" element={<LoginPage />} />}
-          {isAuthenticated() ? null: <Route path="/sign-up" element={<RegisterPage />} />}
-        </Routes>
+      <Routes>
+        {isAuthenticated() ? (
+          <Route path="/*" element={<MainPage />} />
+        ) : (
+          <Route path="*" element={<Navigate to="/sign-in" />} />
+        )}
+        {isAuthenticated() ? null : <Route path="/sign-in" element={<LoginPage />} />}
+        {isAuthenticated() ? null : <Route path="/sign-up" element={<RegisterPage />} />}
+      </Routes>
     </BrowserRouter>
   );
 };

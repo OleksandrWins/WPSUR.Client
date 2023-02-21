@@ -1,11 +1,9 @@
-import { ListFormat } from "typescript";
-
 interface Post { 
   id: string;
   title: string;
   body: string;
   mainTag: string;
-  subTags: ListFormat;
+  subTags: string[];
   createdBy: string;
   updatedDate?: Date;
   createdDate: Date

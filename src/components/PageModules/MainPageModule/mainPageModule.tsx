@@ -1,13 +1,48 @@
 import { useParams, Link } from "react-router-dom";
 import { Col, Row } from 'react-bootstrap';
 import './styles.css';
+import PostService from "../../../shared/http-services/PostService";
+import { useEffect, useState } from "react";
+import { AxiosResponse } from "axios";
+import MainTagResponse from "../../../models/tags/MainTagResponse";
+import React from "react";
+
 
 const MainPageModule = () => {
-  let { mainTagId, subTagId } = useParams();
+  const [mainTagsState, setMainTagsState] = useState<Array<MainTagResponse>>([]);
+
+  useEffect(() => {
+    //debugger;
+    getMainTag();
+  }, [])
+
+
+  const setMainTagStateDynamic = (inputMainTagsState: Array<MainTagResponse>) => {
+    let resultMainTagArray = new Array<MainTagResponse>();
+    inputMainTagsState.forEach((mainTag: MainTagResponse) => {
+      debugger;
+      resultMainTagArray.push(mainTag);
+    });
+
+    //debugger;
+    setMainTagsState(resultMainTagArray);
+    //debugger;
+  }
 
   const getMainTag = () => {
-    const mainTagFromApi = { id: mainTagId, name: "#Weapon" }
-    return mainTagFromApi;
+    PostService.getMainTags().then((response: AxiosResponse<Array<MainTagResponse>>) => {
+      //debugger;
+      console.log('before', response.data);
+      setMainTagStateDynamic(response.data);
+      console.log('after', mainTagsState);
+    })
+  }
+
+  let { mainTagId, subTagId } = useParams();
+
+  const getMainTagDepricated = () => {
+    const mainTagsFromApi = { id: mainTagId, name: mainTagsState.find(({ id }) => id === mainTagId)?.name };
+    return mainTagsFromApi;
   }
 
   const getSubTags = () => {
@@ -43,9 +78,9 @@ const MainPageModule = () => {
 
   return (
     <Col>
-      <p>Main Tags:</p>
+      <p>Main Tags: {mainTagsState.length}</p>
       <Row className="main-tags">
-        <div>{getMainTag().id} - {getMainTag().name}</div>
+        <div>{getMainTagDepricated().id} - {getMainTagDepricated().name}</div>
       </Row>
 
       <br></br>

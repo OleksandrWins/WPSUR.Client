@@ -70,7 +70,7 @@ const NavMenu = () => {
       </div>
       </Row>
       <Row className="list-of-topics">
-      <Row className="nav-menu-row my-5"><MainTagSection /></Row>
+      <Row className="nav-menu-row my-5"><MainTagSection/></Row>
         </Row>
     </Container>
 
