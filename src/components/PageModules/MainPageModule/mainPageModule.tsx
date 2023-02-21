@@ -22,8 +22,9 @@ const MainPageModule = () => {
 
   let { mainTagId, subTagId } = useParams();
 
-  const getMainTagDepricated = () => {
+  const getMainTagDeprecated = () => {
     const mainTagsFromApi = { id: mainTagId, name: mainTagsState.find(({ id }) => id === mainTagId)?.name };
+
     return mainTagsFromApi;
   }
 
@@ -55,6 +56,7 @@ const MainPageModule = () => {
     const requiredPosts = postsInDb.filter(post => post.mainTagId.toString() === mainTagId && post.subTagId.toString() === subTagId);
 
     const posts = requiredPosts.map(post => <li key={post.id}>{post.title}: {post.content}</li>);
+    
     return posts;
   }
 
@@ -62,7 +64,7 @@ const MainPageModule = () => {
     <Col>
       <p>Main Tags: {mainTagsState.length}</p>
       <Row className="main-tags">
-        <div>{getMainTagDepricated().id} - {getMainTagDepricated().name}</div>
+        <div>{getMainTagDeprecated().id} - {getMainTagDeprecated().name}</div>
       </Row>
 
       <br></br>

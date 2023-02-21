@@ -11,28 +11,12 @@ const MainTagSection = () => {
   const [mainTagsState, setMainTagsState] = useState<Array<MainTagResponse>>([]);
 
   useEffect(() => {
-    //debugger;
     getMainTag();
   }, [])
 
-  const setMainTagStateDynamic = (inputMainTagsState: Array<MainTagResponse>) => {
-    let resultMainTagArray = new Array<MainTagResponse>();
-    inputMainTagsState.forEach((mainTag: MainTagResponse) => {
-      debugger;
-      resultMainTagArray.push(mainTag);
-    });
-
-    //debugger;
-    setMainTagsState(resultMainTagArray);
-    //debugger;
-  }
-
   const getMainTag = () => {
     PostService.getMainTags().then((response: AxiosResponse<Array<MainTagResponse>>) => {
-      //debugger;
-      console.log('before', response.data);
-      setMainTagStateDynamic(response.data);
-      console.log('after', mainTagsState);
+      setMainTagsState([...response.data])
     })
   }
 

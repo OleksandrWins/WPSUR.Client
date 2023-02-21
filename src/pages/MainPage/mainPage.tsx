@@ -6,6 +6,7 @@ import axios, { AxiosResponse } from "axios";
 import "../../styles/custom.css";
 import MessagePageModule from "../../components/PageModules/MessagePageModule/messagePageModule";
 import MainPageModule from "../../components/PageModules/MainPageModule/mainPageModule";
+import MainTagModule from "../../components/PageModules/MainTagModule/mainTagModule";
 
 const MainPage = () => {
   return <Container>
@@ -14,8 +15,7 @@ const MainPage = () => {
       <Col className="main-container">
         <Routes>
           <Route path="/home" element={<MainPageModule />}/>
-          <Route path="/home/:mainTagId" element={<MainPageModule />}/> 
-          <Route path="/home/:mainTagId/:subTagId" element={<MainPageModule />}/> 
+          <Route path="/home/:mainTagId" element={<MainTagModule />}/> 
           <Route path="/messages" element={<MessagePageModule />}/>
           <Route path="*" element={<Navigate to="/home"/>}/>
         </Routes>
