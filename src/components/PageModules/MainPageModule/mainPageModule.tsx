@@ -5,37 +5,19 @@ import PostService from "../../../shared/http-services/PostService";
 import { useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
 import MainTagResponse from "../../../models/tags/MainTagResponse";
-import React from "react";
 
 
 const MainPageModule = () => {
   const [mainTagsState, setMainTagsState] = useState<Array<MainTagResponse>>([]);
 
   useEffect(() => {
-    //debugger;
     getMainTag();
   }, [])
 
-
-  const setMainTagStateDynamic = (inputMainTagsState: Array<MainTagResponse>) => {
-    let resultMainTagArray = new Array<MainTagResponse>();
-    inputMainTagsState.forEach((mainTag: MainTagResponse) => {
-      debugger;
-      resultMainTagArray.push(mainTag);
-    });
-
-    //debugger;
-    setMainTagsState(resultMainTagArray);
-    //debugger;
-  }
-
   const getMainTag = () => {
     PostService.getMainTags().then((response: AxiosResponse<Array<MainTagResponse>>) => {
-      //debugger;
-      console.log('before', response.data);
-      setMainTagStateDynamic(response.data);
-      console.log('after', mainTagsState);
-    })
+      setMainTagsState([...response.data])
+    }).catch((err: Error) => console.error(err))
   }
 
   let { mainTagId, subTagId } = useParams();
