@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import MainTagResponse from "../../../models/tags/MainTagResponse";
+import MainTagResponse from "../../../models/tags/response/MainTagResponse";
 import PostService from "../../../shared/http-services/PostService";
 import mainTagsState from "../../PageModules/MainPageModule/mainPageModule";
 import './styles.css';

@@ -4,7 +4,7 @@ import './styles.css';
 import PostService from "../../../shared/http-services/PostService";
 import { useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
-import MainTagResponse from "../../../models/tags/MainTagResponse";
+import MainTagResponse from "../../../models/tags/response/MainTagResponse";
 
 
 const MainPageModule = () => {

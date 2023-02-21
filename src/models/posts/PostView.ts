@@ -1,8 +1,12 @@
+import SubTag from "../subTags/subTag";
+import MainTagView from "../tags/MainTagView";
+
 interface PostView { 
   id: string;
+  header: string;
   content: string;
-  mainTag: Array<string>;
-  subTags: Array<string>;
+  mainTag: MainTagView;
+  subTags: Array<SubTag>;
   likes: number;
 }
 

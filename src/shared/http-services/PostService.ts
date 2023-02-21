@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import SearchByTagsRequest from "../../models/tags/request/SearchByTagsRequest";
 import PostView from "../../models/posts/PostView";
-import MainTagResponse from "../../models/tags/MainTagResponse";
+import MainTagResponse from "../../models/tags/response/MainTagResponse";
 import HttpServiceBase from "./HttpServiceBase";
 
 
