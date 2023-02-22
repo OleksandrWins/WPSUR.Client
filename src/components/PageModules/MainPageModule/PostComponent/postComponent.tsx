@@ -26,11 +26,13 @@ const PostComponent = (props: PostView) => {
     setSubTagJsxState([
       ...postState.subTags.map((subTag) => (
         <Col>
-          <TagElement
-            key={postState.subTags.indexOf(subTag)}
-            isMainTag={false}
-            content={subTag.title}
-          />
+          <Row>
+            <TagElement
+              key={postState.subTags.indexOf(subTag)}
+              isMainTag={false}
+              content={subTag.title}
+            />
+          </Row>
         </Col>
       )),
     ]);
@@ -39,7 +41,7 @@ const PostComponent = (props: PostView) => {
       return;
     }
 
-    console.log(props)
+    console.log(props);
 
     setCommentState([...commentsState, ...props.comments]);
   }, []);
@@ -47,10 +49,11 @@ const PostComponent = (props: PostView) => {
   useEffect(() => {
     setContentCommentState("");
     setCommentsElementsState(commentsState);
-  }, [commentsState.length]);
+  }, [commentsState]);
 
   const setCommentsElementsState = (commentState: Comment[]) => {
-    setCommentsJSXState([...commentsJSXState,
+    setCommentsJSXState([
+      ...commentsJSXState,
       ...commentState.map((comment: Comment) => (
         <CommentComponent
           id={comment.id}
@@ -58,11 +61,10 @@ const PostComponent = (props: PostView) => {
           content={comment.content}
           createdBy={comment.createdBy}
           createdDate={comment.createdDate}
-          key={commentsState.indexOf(comment)}
         />
       )),
     ]);
-  }
+  };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -81,32 +83,17 @@ const PostComponent = (props: PostView) => {
     console.log(createComment);
 
     CommentService.createComment(createComment)
-      .then((response: AxiosResponse<CommentResponse>) => {
-        setCommentState([
-          ...commentsState,
-          {
-            id: response.data.id,
-            content: contentCommentState,
-            likes: 0,
-            
-            createdBy: {
-              id: response.data.id,
-              firstName: response.data.createdBy.firstName,
-              lastName: response.data.createdBy.lastName,
-              email: response.data.createdBy.email,
-            },
-            createdDate:response.data.createdDate,
-          },
-        ]);
+      .then((response: AxiosResponse<Comment>) => {
+        setCommentState([response.data]);
       })
       .catch((err: Error) => console.log(err));
   };
 
   return (
     <Row className="post-row">
-      <Container className="post">
-        <Row className="post-tags-bar">
-          <Col className="post-tag-bar">
+      <Container className="post  d-block">
+        <Row className="post-tags-bar d-block">
+          <Col className="post-tag-bar  d-block">
             <TagElement
               key={1}
               isMainTag={true}
