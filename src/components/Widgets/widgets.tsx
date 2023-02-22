@@ -1,23 +1,22 @@
 import { Col, Row } from "react-bootstrap";
-import './styles.css';
-import inProgress from "../../assets/svg/in-progress.png"
+import MainWidget from "./MainWidget/mainWidget";
+import "./styles.css";
+import TopWidget from "./TopWidget/topWidget";
 
 const Widget = () => {
-  return(
+  return (
     <Col className="widgetMenu">
-      <Row className="topWidget" style={{padding: "40px", color: "white"}}>
-      In Progress
-
+      <Row className="topWidget">
+        <TopWidget />
       </Row>
-      <Row className="mainWidget" style={{padding: "40px", color: "white"}}>
-      In Progress
-
+      <Row className="mainWidget" style={{ padding: "40px", color: "white" }}>
+        <MainWidget />
       </Row>
-      <Row className="bottomWidget" style={{padding: "40px", color: "white"}}>
-      In Progress
+      <Row className="bottomWidget" style={{ padding: "40px", color: "white" }}>
+        In Progress
       </Row>
     </Col>
   );
-}
+};
 
 export default Widget;

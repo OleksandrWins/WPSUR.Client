@@ -1,0 +1,46 @@
+.useful-links { 
+  margin-left: 12px;
+  margin-right:24px;
+}
+
+.top-widget-text-header {
+  color: #F2F1E6;
+  letter-spacing: 1px;
+  font-size: 140%;
+}
+
+.link { 
+  border-radius: 15px;
+  background-color: #F2F1E6 !important;
+}
+
+.background-top-widget { 
+  background-color: #F2F1E6 !important;
+  border-radius: 15px;
+  padding: 10px 12px !important;
+
+}
+
+.top-widget-content-text { 
+  color: #7694A4 !important;
+  font-size: 12px !important;
+}
+
+a { 
+  color: #7694A4 !important;
+}
+
+.top-widget { 
+  padding: 3% 4%;
+}
+
+.location-information { 
+  padding-left: 0px;
+  margin-right: 20px;
+}
+
+.top-widget-settings-button { 
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
