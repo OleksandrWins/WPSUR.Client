@@ -17,7 +17,7 @@ const TagModule = (props: TagModule) => {
   }
 
   return (
-    <Container className="tag-element" style={props.isMainTag ? mainTagStyle : subTagStyle}>
+    <Container className="tag-element font-poppins-600" style={props.isMainTag ? mainTagStyle : subTagStyle}>
       #{props.content}
     </Container>
   );

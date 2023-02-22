@@ -1,5 +1,7 @@
-interface User {
-  id: string; 
+interface BaseUser {
+  id: string;
+  firstName: string;
+  lastName: string; 
 }
 
-export default User;
+export default BaseUser;

@@ -1,0 +1,31 @@
+.comment-user-name { 
+  text-decoration: underline;
+}
+
+.comment {
+  color: #175A9B
+}
+
+.comment-reply { 
+  font-size: 80%;
+}
+
+.comment-text { 
+  word-wrap: break-word !important;
+}
+
+.reply-text { 
+  margin-left: 1% !important;
+  cursor: pointer;
+  color: #7694A4;
+  text-decoration: underline;
+  transition: color 0.4s ease-in-out;
+}
+.reply-text:hover { 
+  color: #175A9B;
+  transition: color 0.2s ease-in-out;
+}
+
+.comment-like-amount {
+  padding-top: 5% ;
+}

@@ -1,0 +1,27 @@
+.post-like-top {
+  fill: #175A9B;
+  transition: fill 0.5s ease-in-out;
+}
+
+.post-like-bottom { 
+  fill: #F3B73B;
+}
+
+.post-like-bottom-disabled { 
+  fill: none;
+}
+
+.post-like-top-disabled {
+  fill: none;
+}
+
+.post-like-border { 
+  stroke: #175A9B;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+} 
+
+.post-like-border-disabled {
+  stroke: none;
+}
