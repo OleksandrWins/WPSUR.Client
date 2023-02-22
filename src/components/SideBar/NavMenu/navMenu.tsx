@@ -58,13 +58,20 @@ const NavMenu = () => {
         </NavLink>
       </Row>
       <Row className="row-nav-menu">
+        <NavLink
+          id="emergencyRequest"
+          className="menu-item"
+          to="/emergencyList">
+          <span>Emergency</span>
+        </NavLink>
+      </Row>
+
+      <Row className="row-nav-menu">
         <NavLink id="calendar" className="menu-item" to="*">
           <span>Calendar</span>
         </NavLink>
       </Row>
-      <Row className="discussed-topics p-0 mt-3">
-        Most discussed topics:
-      </Row>
+      <Row className="discussed-topics p-0 mt-3">Most discussed topics:</Row>
       <Row className="list-of-topics">
         <Row className="most-discussed-topics-row my-3">
           <MainTagSection />
