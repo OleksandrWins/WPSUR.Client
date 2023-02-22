@@ -5,29 +5,58 @@ import { Link } from "react-router-dom";
 import BackLogo from "../../../../assets/svg/BackLogo/backLogo";
 import SearchLogo from "../../../../assets/svg/SearchLogo/searchLogo";
 import MainTagResponse from "../../../../models/tags/response/MainTagResponse";
+import TagBaseResponse from "../../../../models/tags/response/TagBaseResponse";
+import MainTagService from "../../../../shared/http-services/MainTagSevice";
 import PostService from "../../../../shared/http-services/PostService";
 import "./styles.css";
 
 const MainTagSection = () => {
-  const [mainTagsState, setMainTagsState] = useState<Array<MainTagResponse>>(
+  const [mainTagsState, setMainTagsState] = useState<Array<TagBaseResponse>>(
     []
   );
   const [mainTagsView, setMainTagView] = useState<Array<JSX.Element>>([]);
   const [isNeedMore, setNeedMoreState] = useState<boolean>(false);
   const [titleToFind, setTitleState] = useState<string>("");
-  const [foundMainTagsResult, setMainTagResult] = useState<Array<JSX.Element>>(
-    []
-  );
+  const [foundMainTags, setFoundMainTags] = useState<Array<TagBaseResponse>>();
+  const [foundMainTagsJSXResult, setMainTagResult] = useState<
+    Array<JSX.Element>
+  >([]);
 
   useEffect(() => {
     setMainTagView([
-      ...mainTagsState.map((mainTag: MainTagResponse) => (
-        <Link key={mainTag.id} to={`/home/${mainTag.id}`} className="element font-poppins-800">
-          {"#" + formatString(mainTag.name)}
+      ...mainTagsState.map((mainTag: TagBaseResponse) => {
+        console.log(mainTag);
+        return (
+          <Link
+            key={mainTag.id}
+            to={`/home/${mainTag.id}`}
+            className="element font-poppins-800"
+          >
+            {"#" + formatString(mainTag.title)}
+          </Link>
+        );
+      }),
+    ]);
+  }, [mainTagsState]);
+
+  useEffect(() => {
+    if (!foundMainTags) {
+      console.error("An error occurred try again.");
+      return;
+    }
+
+    setMainTagResult([
+      ...foundMainTags.map((mainTag) => (
+        <Link
+          key={mainTag.id}
+          to={`/home/${mainTag.id}`}
+          className="element font-poppins-800"
+        >
+          {"#" + formatString(mainTag.title)}
         </Link>
       )),
     ]);
-  }, [mainTagsState]);
+  }, [foundMainTags]);
 
   useEffect(() => {
     getMainTag();
@@ -35,7 +64,8 @@ const MainTagSection = () => {
 
   const getMainTag = () => {
     PostService.getMainTags().then(
-      (response: AxiosResponse<Array<MainTagResponse>>) => {
+      (response: AxiosResponse<Array<TagBaseResponse>>) => {
+        console.log(response.data);
         setMainTagsState([...response.data]);
       }
     );
@@ -43,30 +73,39 @@ const MainTagSection = () => {
 
   const formatString = (str: string): string => {
     return str
-      .replace(/(\B)[^ ]*/g, match => (match.toLowerCase()))
-      .replace(/^[^ ]/g, match => (match.toUpperCase()));
-  }
+      .replace(/(\B)[^ ]*/g, (match) => match.toLowerCase())
+      .replace(/^[^ ]/g, (match) => match.toUpperCase());
+  };
 
   const findMainTags = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    //sending response and setting state;
+    MainTagService.findMainTagByTitle(titleToFind)
+      .then((response: AxiosResponse<Array<TagBaseResponse>>) => {
+        console.log(response.data);
+        setFoundMainTags([...response.data]);
+      })
+      .catch((error: Error) => console.log(error));
   };
 
   return (
     <div>
       {isNeedMore ? (
         <Container className="main-tag-find-element">
-          <Row>
+          <Row className="search-topic-form">
             <Form
               onSubmit={(event) => findMainTags(event)}
               className="tag-search-form-background"
             >
               <InputGroup>
-                <Button onClick={() => setNeedMoreState(false)} className="transparent-button tag-back-btn">
+                <Button
+                  onClick={() => setNeedMoreState(false)}
+                  className="transparent-button tag-back-btn"
+                >
                   <BackLogo />
                 </Button>
                 <Form.Control
+                  value={titleToFind}
                   onChange={(event) => setTitleState(event.target.value)}
                   placeholder="find more"
                   className="tag-search-input"
@@ -77,8 +116,13 @@ const MainTagSection = () => {
               </InputGroup>
             </Form>
           </Row>
-          <Row>
-            <Container>{foundMainTagsResult}</Container>
+          <Row className="main-tag-container main-tag-result">
+          {foundMainTagsJSXResult[0] ? foundMainTagsJSXResult : "empty"}
+            <Col md={9}
+               style={{ width: "110%"}}
+            >
+              
+            </Col>
           </Row>
         </Container>
       ) : (

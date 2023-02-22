@@ -62,3 +62,12 @@ a {
 .tag-back-btn { 
   margin: 2% 2.5% 0 0 !important;
 }
+
+.search-topic-form {
+  margin-bottom: 1em;
+  padding-left: 20px !important;
+}
+
+.main-tag-result { 
+  text-align: center;
+}

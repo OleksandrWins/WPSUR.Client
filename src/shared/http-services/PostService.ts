@@ -5,14 +5,15 @@ import MainTagResponse from "../../models/tags/response/MainTagResponse";
 import HttpServiceBase from "./HttpServiceBase";
 import MainTagState from "../../models/tags/MainTagState";
 import Post from "../../models/posts/Post";
+import TagBaseResponse from "../../models/tags/response/TagBaseResponse";
 
 const getPostsByTags = (request: SearchByTagsRequest): Promise<AxiosResponse<PostView>> => {
     return HttpServiceBase.Get<PostView>(`Post/SearchPostsByTags?MainTagId=${request.mainTagId}&SubTagId=${request.subTagId}`
     );
 }
   
-const getMainTags = (): Promise<AxiosResponse<Array<MainTagResponse>>> => {
-  return HttpServiceBase.Get<Array<MainTagResponse>>(`Post/GetMainTags`);
+const getMainTags = (): Promise<AxiosResponse<Array<TagBaseResponse>>> => {
+  return HttpServiceBase.Get<Array<TagBaseResponse>>(`Post/GetMainTags`);
 }
 
 const getMainTagState = (mainTagId: string): Promise<AxiosResponse<MainTagState>> => { 
