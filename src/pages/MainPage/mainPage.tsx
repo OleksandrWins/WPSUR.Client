@@ -8,6 +8,7 @@ import MessagePageModule from "../../components/PageModules/MessagePageModule/me
 import MainPageModule from "../../components/PageModules/MainPageModule/mainPageModule";
 import MainTagModule from "../../components/PageModules/MainTagModule/mainTagModule";
 import InfoPage from "../InfoPage/infoPage";
+import CreateEmergencyList from "../../components/PageModules/CreateEmergencyList/CreateEmergencyList";
 
 
 const MainPage = () => {
@@ -19,6 +20,7 @@ const MainPage = () => {
           <Route path="/home" element={<MainPageModule />}/>
           <Route path="/home/:mainTagId" element={<MainTagModule />}/> 
           <Route path="/messages" element={<MessagePageModule />}/>
+          <Route path="/emergencyList" element={<CreateEmergencyList />}/>
           <Route path="/info" element={<InfoPage />}/>
           <Route path="*" element={<Navigate to="/home"/>}/>
         </Routes>
