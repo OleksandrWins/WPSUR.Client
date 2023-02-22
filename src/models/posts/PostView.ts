@@ -1,13 +1,13 @@
 import Comment from "../comments/comment";
-import SubTag from "../subTags/subTag";
 import MainTagView from "../tags/MainTagView";
+import TagBaseResponse from "../tags/response/TagBaseResponse";
 
 interface PostView {
   id: string;
   header: string;
   content: string;
-  mainTag: MainTagView;
-  subTags: Array<SubTag>;
+  mainTag: TagBaseResponse;
+  subTags: Array<TagBaseResponse>;
   likes: number;
   comments?: Array<Comment>
 }

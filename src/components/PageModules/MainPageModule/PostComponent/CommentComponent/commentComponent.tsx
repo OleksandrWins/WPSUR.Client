@@ -7,6 +7,7 @@ import "./styles.css";
 
 const CommentComponent = (props: Comment) => {
   const [isLikeActive, setActiveLike] = useState<boolean>(false);
+  const [commentState, setCommentState] = useState<Comment>(props);
 
   return (
     <Row>
@@ -14,9 +15,9 @@ const CommentComponent = (props: Comment) => {
         <Row>
           <Container  className="comment-text">
             <span className="comment-user-name font-poppins-600">
-              {props.createdBy.firstName} {props.createdBy.lastName}
+              {commentState.createdBy.firstName} {commentState.createdBy.lastName}
             </span>
-            : {props.content}
+            : {commentState.content}
           </Container>
         </Row>
         <Row>
@@ -35,7 +36,7 @@ const CommentComponent = (props: Comment) => {
                 </Button>
               </Col>
               <Col md={2} className="comment-like-amount font-poppins-600">
-                <span>{props.likes + (isLikeActive ? 1 : 0)}</span>
+                <span>{0 + (isLikeActive ? 1 : 0)}</span>
               </Col>
             </Row>
           </Col>

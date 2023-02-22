@@ -1,4 +1,4 @@
-import BaseUser from "../users/User";
+import BaseUser from "../users/BaseUser";
 
 interface Comment { 
   id: string;

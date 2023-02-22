@@ -1,6 +1,6 @@
 interface SubTag {
   id: string,
-  content: string;
+  title: string;
 }
 
 export default SubTag;

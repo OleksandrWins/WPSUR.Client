@@ -1,26 +1,68 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Col,
-  Container,
-  Form,
-  InputGroup,
-  Row,
-} from "react-bootstrap";
+import { AxiosResponse } from "axios";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import MessageSendLogo from "../../../../assets/svg/MessageSendLogo/messageSendLogo";
 import PostLikeLogo from "../../../../assets/svg/PostLikeLogo/postLikeLogo";
 import TagElement from "../../../../elements/TagElement/tagElement";
 import Comment from "../../../../models/comments/comment";
+import CreateCommentRequest from "../../../../models/comments/requests/creaeteCommentRequest";
+import CommentResponse from "../../../../models/comments/response/commentResponse";
 import PostView from "../../../../models/posts/PostView";
-import SubTag from "../../../../models/subTags/subTag";
+import CommentService from "../../../../shared/http-services/CommentService";
 import CommentComponent from "./CommentComponent/commentComponent";
 import "./styles.css";
 
 const PostComponent = (props: PostView) => {
   const [postState, setPostState] = useState<PostView>(props);
+  const [subTagJsxState, setSubTagJsxState] = useState<Array<JSX.Element>>();
   const [contentCommentState, setContentCommentState] = useState<string>("");
-  const [commentsState, setCommentState] = useState<Comment[]>(props.comments!);
+  const [commentsJSXState, setCommentsJSXState] = useState<Array<JSX.Element>>(
+    []
+  );
+  const [commentsState, setCommentState] = useState<Comment[]>([]);
   const [isActiveLike, setLikeState] = useState<boolean>(false);
+
+  useEffect(() => {
+    setSubTagJsxState([
+      ...postState.subTags.map((subTag) => (
+        <Col>
+          <TagElement
+            key={postState.subTags.indexOf(subTag)}
+            isMainTag={false}
+            content={subTag.title}
+          />
+        </Col>
+      )),
+    ]);
+
+    if (!props.comments) {
+      return;
+    }
+
+    console.log(props)
+
+    setCommentState([...commentsState, ...props.comments]);
+  }, []);
+
+  useEffect(() => {
+    setContentCommentState("");
+    setCommentsElementsState(commentsState);
+  }, [commentsState.length]);
+
+  const setCommentsElementsState = (commentState: Comment[]) => {
+    setCommentsJSXState([...commentsJSXState,
+      ...commentState.map((comment: Comment) => (
+        <CommentComponent
+          id={comment.id}
+          likes={0}
+          content={comment.content}
+          createdBy={comment.createdBy}
+          createdDate={comment.createdDate}
+          key={commentsState.indexOf(comment)}
+        />
+      )),
+    ]);
+  }
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -29,30 +71,49 @@ const PostComponent = (props: PostView) => {
       return;
     }
 
-    setCommentState((prevState) => [
-      ...prevState,
-      {
-        id: "asfefdase",
-        content: contentCommentState,
-        likes: 5,
-        createdBy: { id: "user", firstName: "Name1", lastName: "name2" },
-        createdDate: new Date(),
-      },
-    ]);
+    console.log(commentsState);
+
+    let createComment: CreateCommentRequest = {
+      content: contentCommentState,
+      targetPost: props.id,
+    };
+
+    console.log(createComment);
+
+    CommentService.createComment(createComment)
+      .then((response: AxiosResponse<CommentResponse>) => {
+        setCommentState([
+          ...commentsState,
+          {
+            id: response.data.id,
+            content: contentCommentState,
+            likes: 0,
+            
+            createdBy: {
+              id: response.data.id,
+              firstName: response.data.createdBy.firstName,
+              lastName: response.data.createdBy.lastName,
+              email: response.data.createdBy.email,
+            },
+            createdDate:response.data.createdDate,
+          },
+        ]);
+      })
+      .catch((err: Error) => console.log(err));
   };
 
   return (
-    <Row>
+    <Row className="post-row">
       <Container className="post">
         <Row className="post-tags-bar">
-          <Col md={3} className="post-tag-bar">
-            <TagElement isMainTag={true} content={props.mainTag.content} />
+          <Col className="post-tag-bar">
+            <TagElement
+              key={1}
+              isMainTag={true}
+              content={props.mainTag.title}
+            />
           </Col>
-          {props.subTags.map((subTag: SubTag) => (
-            <Col md={3}>
-              <TagElement isMainTag={false} content={subTag.content} />
-            </Col>
-          ))}
+          {subTagJsxState}
         </Row>
         <Row>
           <Container className="post-header font-poppins-500">
@@ -68,12 +129,15 @@ const PostComponent = (props: PostView) => {
           <Col className="post-reactions">
             <Row>
               <Col md={2} className="post-likes">
-                <Button className="transparent-button" onClick={() => setLikeState(!isActiveLike)}>
-                  <PostLikeLogo isActive={isActiveLike}/>
+                <Button
+                  className="transparent-button"
+                  onClick={() => setLikeState(!isActiveLike)}
+                >
+                  <PostLikeLogo key={1} isActive={isActiveLike} />
                 </Button>
               </Col>
               <Col md={3} className="post-likes-amount font-poppins-600">
-                {isActiveLike ? props.likes + 1 : props.likes}
+                {isActiveLike ? 1 : 0}
               </Col>
             </Row>
           </Col>
@@ -81,17 +145,7 @@ const PostComponent = (props: PostView) => {
         </Row>
         <Row>
           <Container className="post-comments">
-            <Row>
-              {commentsState.map((comment: Comment) => (
-                <CommentComponent
-                  id={comment.id}
-                  likes={comment.likes}
-                  content={comment.content}
-                  createdBy={comment.createdBy}
-                  createdDate={comment.createdDate}
-                />
-              ))}
-            </Row>
+            <Row>{commentsJSXState}</Row>
             <Row>
               <Form
                 onSubmit={(event: React.FormEvent<HTMLFormElement>) =>
@@ -100,6 +154,7 @@ const PostComponent = (props: PostView) => {
               >
                 <InputGroup>
                   <Form.Control
+                    value={contentCommentState}
                     className="comment-input"
                     type="text"
                     onChange={(event) =>
