@@ -6,6 +6,9 @@ interface MessageView {
   content: string;
   id: string;
   isIncome: boolean;
+  isDelete: boolean;
+  addMessagesToDelete: (args: string) => void;
+  removeMessageToDelete: (args: string) => void;
 } 
 
 export default MessageView;

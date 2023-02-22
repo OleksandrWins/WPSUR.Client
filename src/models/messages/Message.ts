@@ -4,7 +4,7 @@ interface Message {
   userFrom: string;
   userTo: string;
   updatedDate?: Date;
-  createdDate: Date
+  createdDate: Date;
 }
 
 export default Message;

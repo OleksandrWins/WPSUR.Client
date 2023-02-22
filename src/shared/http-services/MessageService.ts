@@ -17,7 +17,15 @@ const updateMessage = (request: UpdateMessageRequest): Promise<AxiosResponse> =>
   )
 }
 
+const deleteMessages = (request: string[]): Promise<AxiosResponse> => { 
+  return HttpServiceBase.Delete(
+    'Message/deleteMessages',
+    request,
+  )
+}
+
 const MessageService = {
+  deleteMessages,
   createMessage,
   updateMessage,
 }

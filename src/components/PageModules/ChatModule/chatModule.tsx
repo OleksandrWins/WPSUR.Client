@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { CSSProperties, useEffect, useState } from "react";
-import { Button, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import MessageSendLogo from "../../../assets/svg/MessageSendLogo/messageSendLogo";
 import Chat from "../../../models/chats/Chat";
 import Message from "../../../models/messages/Message";
@@ -16,6 +16,9 @@ import UpdateMessageNotification from "../../../models/messages/notifications/up
 import ConvertDateService from "../../../shared/convertDataServices/convertDateService";
 import { useLocation } from "react-router-dom";
 import LoadingSpinner from "../../../elements/loadingElement";
+import DoneUpdateMessageLogo from "../../../assets/svg/DoneUpdateMessageLogo/doneUpdateMessageLogo";
+import CancelUpdateMessageLogo from "../../../assets/svg/CancelUpdateMessageLogo/cancelUpdateMessageLogo";
+import DeletionMessageNotification from "../../../models/messages/notifications/deletionMessage";
 
 const ChatModule = () => {
   const [chat, setChatState] = useState<Chat>({
@@ -26,13 +29,42 @@ const ChatModule = () => {
   const [messageValue, setMessageState] = useState<string>("");
   const [htmlMessages, setHtmlMessages] = useState<Array<JSX.Element>>([]);
   const [isLoading, setLoadingState] = useState<boolean>(false);
-
+  const [messagesToDelete, setMessagesToDelete] = useState<string[]>([]);
+  const [isMessagesToDelete, setDeleteState] = useState<boolean>(false);
   const location = useLocation();
+
+  useEffect(() => {
+    console.log(chat);
+    convertToHtmlMessages(chat);
+  }, [chat.messages]);
+
+  useEffect(() => {
+    setDeleteState(messagesToDelete.length > 0);
+  }, [messagesToDelete]);
 
   useEffect(() => {
     retrieveChat();
     ConnectionProvider.hubConnection.start();
   }, [chat.receiver.userId]);
+
+  const removeMessageToDelete = (messageId: string) => {
+    console.log("message removed" + " " + messageId);
+    setMessagesToDelete((prevState: string[]) => [
+      ...prevState.filter(
+        (currentMessage: string) => currentMessage !== messageId
+      ),
+    ]);
+  };
+
+  const addMessagesToDelete = (messagesId: string) => {
+    console.log("message added" + " " + messagesId);
+    setMessagesToDelete((prevState: string[]) => {
+      if (prevState.includes(messagesId)) {
+        return prevState;
+      }
+      return [...prevState, messagesId];
+    });
+  };
 
   const retrieveChat = () => {
     ChatService.getChat(location.pathname.slice(10))
@@ -45,36 +77,38 @@ const ChatModule = () => {
   };
 
   const convertToHtmlMessages = (chatInput: Chat) => {
-    let messagesCollection: Array<JSX.Element> = [];
-
-    chatInput?.messages.forEach((message: Message) => {
-      let isUserFromSender: boolean = chat.sender.userId === message.userFrom;
-
-      messagesCollection.push(
-        <MessageElement
-          isIncome={!isUserFromSender}
-          userFromFirstName={
-            isUserFromSender
-              ? chat.sender.userFirstName
-              : chat.receiver.userFirstName
-          }
-          userFromLastName={
-            isUserFromSender
-              ? chat.sender.userLastName
-              : chat.receiver.userLastName
-          }
-          createdDate={ConvertDateService.convertDate(message.createdDate)}
-          content={message.content}
-          id={message.id}
-          key={messagesCollection.length}
-        />
-      );
-    });
-
-    setHtmlMessages(messagesCollection);
+    console.log(chatInput)
+    setHtmlMessages([
+      ...chatInput?.messages.map((message: Message) => {
+        let isUserFromSender: boolean = chat.sender.userId === message.userFrom;
+        console.log(message);
+        return (
+          <MessageElement
+            isDelete={false}
+            removeMessageToDelete={removeMessageToDelete}
+            addMessagesToDelete={addMessagesToDelete}
+            isIncome={!isUserFromSender}
+            userFromFirstName={
+              isUserFromSender
+                ? chat.sender.userFirstName
+                : chat.receiver.userFirstName
+            }
+            userFromLastName={
+              isUserFromSender
+                ? chat.sender.userLastName
+                : chat.receiver.userLastName
+            }
+            createdDate={ConvertDateService.convertDate(message.createdDate)}
+            content={message.content}
+            id={message.id}
+            key={chatInput.messages.indexOf(message)}
+          />
+        );
+      }),
+    ]);
   };
 
-  const setHtmlMessagesDynamic = (
+  const setHtmlMessageDynamic = (
     prevState: JSX.Element[],
     htmlMessageElement: JSX.Element
   ): JSX.Element[] => {
@@ -93,6 +127,75 @@ const ChatModule = () => {
     let inputHtmlElementArr = prevState;
 
     return (prevState = [...inputHtmlElementArr, htmlMessageElement]);
+  };
+
+  const cancelDeleteMessages = (
+    event: React.MouseEvent<Element, MouseEvent>
+  ) => {
+    setDeleteState(false);
+    setMessagesToDelete((prevState: string[]): string[] => {
+      let messageElements = [
+        ...htmlMessages.filter((value: JSX.Element) => {
+          return prevState.includes(value.props.id);
+        }),
+      ];
+
+      setHtmlMessages([
+        ...htmlMessages.map((element: JSX.Element) => {
+          console.log([messageElements, element]);
+          if (!messageElements.includes(element)) {
+            return element;
+          }
+
+          const changedElement = (
+            <MessageElement
+              isDelete={false}
+              removeMessageToDelete={element.props.removeMessageToDelete}
+              addMessagesToDelete={element.props.addMessagesToDelete}
+              isIncome={element.props.isIncome}
+              userFromFirstName={element.props.userFromFirstName}
+              userFromLastName={element.props.userFromLastName}
+              createdDate={element.props.createdDate}
+              content={element.props.content}
+              id={element.props.data}
+            />
+          );
+
+          return changedElement;
+        }),
+      ]);
+
+      return [];
+    });
+  };
+
+  const deleteHtmlMessages = (messagesToDelete: string[]) => {
+    console.log(chat.messages);
+
+    setChatState((prevState: Chat) => {
+      return {
+        ...chat,
+        messages: [
+          ...prevState.messages.filter(
+            (value: Message) => !messagesToDelete.includes(value.id)
+          ),
+        ],
+      };
+    });
+  };
+
+  const deleteMessages = (event: React.MouseEvent<Element, MouseEvent>) => {
+    event.preventDefault();
+
+    setLoadingState(true);
+
+    MessageService.deleteMessage(messagesToDelete)
+      .then(() => {
+        return setLoadingState(false);
+      })
+      .catch((err: Error) => console.log(err));
+
+    deleteHtmlMessages(messagesToDelete);
   };
 
   const onSubmit = (event: React.FormEvent<HTMLElement>) => {
@@ -116,11 +219,27 @@ const ChatModule = () => {
       () =>
         MessageService.createMessage(createMessageRequest)
           .then((messageId: AxiosResponse<string>) => {
+            const newChatState: Message = {
+              content: createMessageRequest.content,
+              userFrom: chat.sender.userId,
+              userTo: chat.receiver.userId,
+              id: messageId.data,
+              createdDate: Moment().toDate(),
+            };
+
+            setChatState({
+              ...chat,
+              messages: [...chat.messages, newChatState],
+            });
+
             setHtmlMessages((messageViewCollection: JSX.Element[]) => {
               setLoadingState(false);
-              return setHtmlMessagesDynamic(
+              return setHtmlMessageDynamic(
                 messageViewCollection,
                 <MessageElement
+                  isDelete={false}
+                  removeMessageToDelete={removeMessageToDelete}
+                  addMessagesToDelete={addMessagesToDelete}
                   isIncome={false}
                   userFromFirstName={chat.sender.userFirstName}
                   userFromLastName={chat.sender.userLastName}
@@ -142,42 +261,15 @@ const ChatModule = () => {
   };
 
   ConnectionProvider.hubConnection.on(
-    "UpdateMessage",
-    (messageToUpdate: UpdateMessageNotification) => {
-      if (chat.sender.userId !== messageToUpdate.receiverId) {
+    "DeleteMessage",
+    (messagesToDelete: DeletionMessageNotification) => {
+      if (chat.sender.userId !== messagesToDelete.receiverId) {
         return;
       }
 
-      window.location.reload();
+      console.log(messagesToDelete);
 
-      // setHtmlMessages((prevState: JSX.Element[]) => {
-      //   let elementToUpdate = htmlMessages.find((element: JSX.Element) => {
-      //     console.log([element.props.id, messageToUpdate.messageId]);
-      //     if (element.props.id === messageToUpdate.messageId) {
-      //       return element;
-      //     }
-      //   });
-      //   console.log(elementToUpdate);
-
-      //   if (!elementToUpdate) {
-      //     console.error("An error while updating the message!");
-      //     return prevState;
-      //   }
-
-      //   return setHtmlMessagesDynamic(prevState, elementToUpdate);
-
-      //   // let inputMessage = React.cloneElement(elementToUpdate, {
-      //   //   content: `${messageToUpdate.content}`,
-      //   //   updatedDate: ConvertDateService.convertDate(
-      //   //     messageToUpdate.updatedDate
-      //   //   ),
-      //   // });
-
-      //   // return {
-      //   //   ...prevState,
-      //   //   inputMessage,
-      //   // };
-      // });
+      deleteHtmlMessages(messagesToDelete.messageIds);
     }
   );
 
@@ -191,25 +283,11 @@ const ChatModule = () => {
       let isUserFromReceiver: boolean =
         messageToGet.userFrom === chat.receiver.userId;
 
-      setHtmlMessages((prevState: JSX.Element[]): JSX.Element[] => {
-        return setHtmlMessagesDynamic(
-          prevState,
-          <MessageElement
-            isIncome={isUserFromReceiver}
-            userFromFirstName={
-              isUserFromReceiver ? chat.receiver.userFirstName : "error"
-            }
-            userFromLastName={
-              isUserFromReceiver ? chat.receiver.userLastName : "error"
-            }
-            createdDate={ConvertDateService.convertDate(
-              messageToGet.createdDate
-            )}
-            content={messageToGet.content}
-            id={messageToGet.id}
-            key={prevState.length}
-          />
-        );
+      setChatState((prevState: Chat) => {
+        return {
+          ...prevState,
+          messages: [...chat.messages, messageToGet],
+        };
       });
     }
   );
@@ -260,25 +338,68 @@ const ChatModule = () => {
         <Container className="background-form">
           <Form onSubmit={(event) => onSubmit(event)}>
             <Row className="form-row justify-content-center">
-              <Container className="message-input-col">
-                <Form.Control
-                  className="message-input-control"
-                  id="message-input"
-                  value={messageValue}
-                  onChange={(event) => setMessageState(event.target.value)}
-                  type="text"
-                />
-              </Container>
+              {isMessagesToDelete ? (
+                <Container>
+                  <Row>
+                    <Container>
+                      <span>Delete messages?</span>
+                    </Container>
+                  </Row>
+                  <Row>
+                    <Col md={6}>
+                      <Button
+                        className="transparent-button"
+                        onClick={(
+                          event: React.MouseEvent<Element, MouseEvent>
+                        ) => deleteMessages(event)}
+                      >
+                        {isLoading ? (
+                          <LoadingSpinner
+                            color="#3498db"
+                            containerSideSize={24}
+                          />
+                        ) : (
+                          <DoneUpdateMessageLogo></DoneUpdateMessageLogo>
+                        )}
+                      </Button>
+                    </Col>
+                    <Col md={6}>
+                      <Button
+                        className="transparent-button"
+                        onClick={(
+                          event: React.MouseEvent<Element, MouseEvent>
+                        ) => cancelDeleteMessages(event)}
+                      >
+                        {isLoading ? null : (
+                          <CancelUpdateMessageLogo></CancelUpdateMessageLogo>
+                        )}
+                      </Button>
+                    </Col>
+                  </Row>
+                </Container>
+              ) : (
+                <div>
+                  <Container className="message-input-col">
+                    <Form.Control
+                      className="message-input-control"
+                      id="message-input"
+                      value={messageValue}
+                      onChange={(event) => setMessageState(event.target.value)}
+                      type="text"
+                    />
+                  </Container>
 
-              <Container className="button-col">
-                {isLoading ? (
-                  <LoadingSpinner color="#3498db" containerSideSize={24} />
-                ) : (
-                  <Button type="submit" className="send-button">
-                    <MessageSendLogo />
-                  </Button>
-                )}
-              </Container>
+                  <Container className="button-col">
+                    {isLoading ? (
+                      <LoadingSpinner color="#3498db" containerSideSize={24} />
+                    ) : (
+                      <Button type="submit" className="send-button">
+                        <MessageSendLogo />
+                      </Button>
+                    )}
+                  </Container>
+                </div>
+              )}
             </Row>
           </Form>
         </Container>

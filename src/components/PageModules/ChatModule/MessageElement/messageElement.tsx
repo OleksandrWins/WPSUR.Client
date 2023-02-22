@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import CancelUpdateMessageLogo from "../../../../assets/svg/CancelUpdateMessageLogo/cancelUpdateMessageLogo";
+import DeleteMessageLogo from "../../../../assets/svg/DeleteMessageLogo/deleteMessageLogo";
 import UpdateMessageLogo from "../../../../assets/svg/UpdateMessageLogo/updateMessageLogo";
 import MessageView from "../../../../models/messages/MessageView";
+import UpdateMessageNotification from "../../../../models/messages/notifications/updateMessage";
+import { ConnectionProvider } from "../../../../shared/http-services/HttpServiceBase";
 import "./style.css";
 import UpdateMessageInput from "./UpdateMessageInput/updateMessageInput";
 
@@ -10,16 +13,22 @@ const MessageElement = (message: MessageView) => {
   const messageRef = React.useRef<HTMLInputElement>(null);
 
   const [messageEdit, setMessageEditStatus] = useState<boolean>(false);
+  const [messageToDelete, setMessageToDelete] = useState<boolean>(message.isDelete);
   const [messageContentState, setMessageContentState] = useState<string>(
     message.content
   );
 
- 
   useEffect(() => {
     if (messageRef.current) {
       messageRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messageRef]);
+
+  useEffect(() => {
+    messageToDelete
+      ? message.addMessagesToDelete(message.id)
+      : message.removeMessageToDelete(message.id);
+  }, [messageToDelete]);
 
   const updateEditState = (): void => {
     setMessageEditStatus((prevState: boolean) => !prevState);
@@ -33,6 +42,26 @@ const MessageElement = (message: MessageView) => {
     event.preventDefault();
 
     setMessageEditStatus((prevState: boolean) => !prevState);
+  };
+
+  ConnectionProvider.hubConnection.on(
+    "UpdateMessage",
+    (messageToUpdate: UpdateMessageNotification) => {
+
+      console.log([message, messageToUpdate])
+      console.log(message.id === messageToUpdate.messageId)
+      if (message.id !== messageToUpdate.messageId) {
+        return;
+      }
+
+      setMessageContentState(messageToUpdate.content);
+    }
+  );
+
+  const toDeleteStyle = {
+    backgroundColor: "#486877",
+    border: "5px solid #7694A4",
+    color: "#F2F1E6",
   };
 
   const incomeMessageStyle = {
@@ -50,7 +79,13 @@ const MessageElement = (message: MessageView) => {
   return (
     <Row ref={messageRef}>
       <Container
-        style={message.isIncome ? incomeMessageStyle : outcomeMessageStyle}
+        style={
+          message.isIncome
+            ? incomeMessageStyle
+            : messageToDelete
+            ? toDeleteStyle
+            : outcomeMessageStyle
+        }
         className="message-container"
       >
         <Row>
@@ -74,6 +109,22 @@ const MessageElement = (message: MessageView) => {
                     ) : (
                       <CancelUpdateMessageLogo />
                     )}
+                  </Button>
+                ) : null}
+              </Col>
+              <Col md={1} className="delete-message-button">
+                {!message.isIncome ? (
+                  <Button
+                    type="button"
+                    className="transparent-button"
+                    onClick={(event: React.MouseEvent<Element, MouseEvent>) => {
+                      event.preventDefault();
+                      setMessageToDelete(
+                        (prevState: boolean): boolean => !prevState
+                      );
+                    }}
+                  >
+                    <DeleteMessageLogo />
                   </Button>
                 ) : null}
               </Col>
