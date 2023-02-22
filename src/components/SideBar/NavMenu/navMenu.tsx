@@ -4,13 +4,11 @@ import { NavLink, useLocation } from "react-router-dom";
 import HomeLogo from "../../../assets/svg/HomeLogo/home";
 import { MessageLogo } from "../../../assets/svg/MessagesLogo/messageLogo";
 import "../../../styles/fonts/font.css";
-import MainTagSection from "./mainTagSection";
+import MainTagSection from "./MainTagSection/mainTagSection";
 import "./styles.css";
 
 const NavMenu = () => {
   const location = useLocation();
-
-  var color = "red";
 
   const link: HTMLElement | null = document.getElementById(
     location.pathname.slice(1)
@@ -64,16 +62,15 @@ const NavMenu = () => {
           <span>Calendar</span>
         </NavLink>
       </Row>
-      <Row className="discused-topics">
-      <div>
+      <Row className="discussed-topics p-0 mt-3">
         Most discussed topics:
-      </div>
       </Row>
       <Row className="list-of-topics">
-      <Row className="nav-menu-row my-5"><MainTagSection/></Row>
+        <Row className="most-discussed-topics-row my-3">
+          <MainTagSection />
         </Row>
+      </Row>
     </Container>
-
   );
 };
 

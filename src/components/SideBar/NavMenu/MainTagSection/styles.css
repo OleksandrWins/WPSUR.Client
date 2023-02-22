@@ -1,0 +1,64 @@
+.main-tag-container {
+  width: 100% !important;
+  height: auto;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: #f2f1e6;
+}
+
+.main-tag-container > .element {
+  text-align: left;
+  margin: 10px;
+  display: block;
+  font-size: 16px;
+}
+
+.find-more-option { 
+  text-align: center !important;
+  cursor: pointer;
+  transition: color 0.4s ease-in-out;
+  width: fit-content;
+}
+
+.find-more-option:hover { 
+  text-align: center !important;
+  cursor: pointer;
+  color: #175A9B;
+  transition: color 0.4s ease-in-out;
+}
+
+a { 
+  color: #175A9B !important;
+}
+
+.tag-search-form-background { 
+  background-color: #D9D9D9;
+  padding: 10px !important;
+  border-radius: 23px;
+  margin-left: -10% !important;
+}
+
+.main-tag-find-element { 
+  width: 120% !important;
+}
+
+.tag-search-input { 
+  border-radius: 1px !important;
+  background-color: #FDFCEE;
+}
+
+.tag-search-input::placeholder { 
+  color: #7694A4;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.tag-search-search-logo-button { 
+  margin: 2% !important;
+}
+
+.tag-back-btn { 
+  margin: 2% 2.5% 0 0 !important;
+}

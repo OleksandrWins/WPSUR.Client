@@ -1,5 +1,5 @@
 import { Col, Container, Row } from "react-bootstrap";
-import "./styles.css";
+import "./styles.scss";
 import PostService from "../../../shared/http-services/PostService";
 import { useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
@@ -123,65 +123,53 @@ const MainPageModule = () => {
   };
 
   return (
-    <Col>
-      <p>Main Tags: {mainTagsState.length}</p>
+    <Col className="main-page-module">
       <Row className="main-tags">
-        <div>
-          {getMainTagDeprecated().id} - {getMainTagDeprecated().name}
-        </div>
+        <Container className="font-poppins-700 main-page-header main-page-content">
+          Welcome to the{" "} <span className="main-page-app-name">"Everybody-info".</span>
+        </Container>
       </Row>
-
-      <br></br>
-
-      <p>Sub Tags:</p>
-      <Row>{getSubTags()}</Row>
-
-      <br></br>
-
-      <p>Posts:</p>
-      <ul>{getPosts()}</ul>
-
-      
-      <Row className="main-tags">
-        <input placeholder="find more"></input>
-      </Row>
-      <Row className="main-tags">
-        <div> main tags </div>
-      </Row>
-      <Row className="additional-tags">
-        <div> additional tags </div>
+      <Row className="description">
+        <Container className="font-poppins-700 main-page-description main-page-content">
+          <Link to={"/info"}>Our application can</Link>
+        </Container>
       </Row>
       <Row>
-        <div>content </div>
+        <Container>
+          <PostComponent
+            id="A24564EA-36C3-45A1-AA8C-B9F5298B37CB"
+            header="Super post header"
+            content="Super post content that you can see in our beautiful app."
+            mainTag={{
+              id: "E9D62ED9-12B0-4825-97E2-C2ADF37B2331",
+              content: "Main tag",
+            }}
+            subTags={[
+              {
+                id: "9FD17F82-3094-479C-8796-79F00F9F0706",
+                content: "Sub tag",
+              },
+            ]}
+            likes={4}
+            comments={[
+              {
+                id: "adfas",
+                likes: 3,
+                content:
+                  "This is a very strange comment from very strange user...",
+                createdBy: {
+                  id: "ddddd",
+                  firstName: "Name",
+                  lastName: "Notname",
+                },
+                createdDate: new Date(),
+              },
+            ]}
+          />
+        </Container>
       </Row>
-      <Container>
-        <PostComponent
-          id="A24564EA-36C3-45A1-AA8C-B9F5298B37CB"
-          header="Super post header"
-          content="Super post content that you can see in our beautiful app."
-          mainTag={{
-            id: "E9D62ED9-12B0-4825-97E2-C2ADF37B2331",
-            content: "Main tag",
-          }}
-          subTags={[
-            { id: "9FD17F82-3094-479C-8796-79F00F9F0706", content: "Sub tag" },
-          ]}
-          likes={4}
-          comments={[
-            {
-              id: "adfas",
-              likes: 3,
-              content: "This is a very strange comment from very strange user...",
-              createdBy: { id: "ddddd", firstName: "Name", lastName: "Notname" },
-              createdDate: new Date()
-            },
-          ]}
-        />
-      </Container>
     </Col>
-    
   );
 };
 
 export default MainPageModule;
-

@@ -1,0 +1,52 @@
+.main-container {
+  padding: 0;
+  background-color: #f2f1e6;
+  height: 100% !important;
+  margin-left: 20%;
+  margin-right: 30%;
+}
+
+.main-page-header {
+  padding: 1em 0 0;
+}
+
+.main-page-content {
+  font-size: 30px;
+  text-align: center;
+}
+
+.main-page-app-name {
+  background-image: linear-gradient(
+    270deg,
+    rgba(239, 213, 156, 1) 20%,
+    rgba(23, 90, 155, 1) 100%
+  ) !important;
+  background-size: 100%;
+  background-repeat: repeat;
+  background-clip: text;
+  -webkit-text-fill-color: transparent; 
+}
+
+.main-page-description {
+  padding: 1em 0;
+  a {
+    color: #175a9b !important;
+    transition: color 0.7s ease-in-out;
+  }
+
+  a:hover {
+    color: rgba(239, 213, 156, 1) !important;
+    cursor: pointer !important;
+    transition: color 0.7s ease-in-out !important;
+  }
+}
+
+.main-page-app-name {
+  font-family: Lobster, sans-serif !important;
+  font-weight: 400;
+  font-size: 35px;
+}
+
+.main-page-module {
+  color: #175a9b;
+}

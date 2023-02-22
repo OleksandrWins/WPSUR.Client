@@ -1,7 +1,9 @@
 .nav-menu {
   width: 75% !important;
   padding: 0% !important;
+  color: #83B9D3;
 }
+
 
 .row-nav-menu { 
   margin: 0 !important;
@@ -45,19 +47,8 @@ a {
   padding: 0% !important;
 }
 
-.main-tag-container {
-  border: 3px solid black;
-  border-radius: 15px;
-  background-color: #f2f1e6;
-  /*max-height: 100px;*/
-  /*max-width: 1000px;*/
-  /*overflow-y: auto;*/
+.most-discussed-topics-row { 
+  width: 120% !important;
 }
 
-.main-tag-container > .element {
-  margin: 20px auto 20px 10px;
-  display: block;
-  font-size: 25px;
-  font-weight: 600;
-  font-family: monospace 800;
-}
+

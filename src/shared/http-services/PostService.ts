@@ -3,6 +3,7 @@ import SearchByTagsRequest from "../../models/tags/request/SearchByTagsRequest";
 import PostView from "../../models/posts/PostView";
 import MainTagResponse from "../../models/tags/response/MainTagResponse";
 import HttpServiceBase from "./HttpServiceBase";
+import MainTagState from "../../models/tags/MainTagState";
 
 
 const getPostsByTags = (request: SearchByTagsRequest): Promise<AxiosResponse<PostView>> => {
@@ -14,9 +15,14 @@ const getMainTags = (): Promise<AxiosResponse<Array<MainTagResponse>>> => {
   return HttpServiceBase.Get<Array<MainTagResponse>>(`Post/GetMainTags`);
 }
 
+const getMainTagState = (mainTagId: string): Promise<AxiosResponse<MainTagState>> => { 
+  return HttpServiceBase.Get<MainTagState>(`Post/GetMainTagState?mainTagId=${mainTagId}`);
+}
+
 const PostService = {
   getPostsByTags,
-  getMainTags
+  getMainTags,
+  getMainTagState,
 }
 
 export default PostService;

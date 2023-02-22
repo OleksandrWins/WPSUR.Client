@@ -4,6 +4,7 @@ interface Post {
   body: string;
   mainTag: string;
   subTags: string[];
+  likes: number;
   createdBy: string;
   updatedDate?: Date;
   createdDate: Date

@@ -7,6 +7,7 @@ import "../../styles/custom.css";
 import MessagePageModule from "../../components/PageModules/MessagePageModule/messagePageModule";
 import MainPageModule from "../../components/PageModules/MainPageModule/mainPageModule";
 import MainTagModule from "../../components/PageModules/MainTagModule/mainTagModule";
+import InfoPage from "../InfoPage/infoPage";
 
 
 const MainPage = () => {
@@ -18,6 +19,7 @@ const MainPage = () => {
           <Route path="/home" element={<MainPageModule />}/>
           <Route path="/home/:mainTagId" element={<MainTagModule />}/> 
           <Route path="/messages" element={<MessagePageModule />}/>
+          <Route path="/info" element={<InfoPage />}/>
           <Route path="*" element={<Navigate to="/home"/>}/>
         </Routes>
       </Col>
