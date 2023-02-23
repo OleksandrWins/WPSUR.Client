@@ -19,4 +19,5 @@
 .bottomWidget { 
   background-color: #175A9B;
   height: 22%;
+  justify-content: center;
 }

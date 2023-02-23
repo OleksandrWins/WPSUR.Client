@@ -121,7 +121,6 @@ const MainTagSection = () => {
             <Col md={9}
                style={{ width: "110%"}}
             >
-              
             </Col>
           </Row>
         </Container>
