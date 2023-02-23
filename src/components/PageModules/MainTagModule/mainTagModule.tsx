@@ -25,6 +25,7 @@ const MainTagModule = () => {
 
   useEffect(() => {
     console.log(postElementsState);
+    
     setPostElementsState([...mainTagState.posts.map((post: Post) => (
       <PostComponent
         id={post.id}
@@ -38,16 +39,20 @@ const MainTagModule = () => {
       />
     ))])
 
+    console.log(postElementsState);
+
   }, [mainTagState])
 
   useEffect(() => {
     console.log();
     PostService.getMainTagState(location.pathname.slice(6)).then(
       (response: AxiosResponse<MainTagState>) => {
+        console.log(response.data);
         setMainTagState(response.data)}
     ).catch((err: Error) => console.log(err));
 
-  }, []);
+    console.log(mainTagState.posts);
+  }, [location.pathname.slice(6)]);
 
   return (
     <Container>

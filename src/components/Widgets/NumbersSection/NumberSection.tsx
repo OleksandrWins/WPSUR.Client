@@ -18,7 +18,7 @@ const NumberSection = () => {
   return (
     <Container className="number-section font-poppins-600">
       {" "}
-      <text className="number-section-text">Number of {killedRussianState.identifier} killed:</text>
+      <text className="number-section-text">Number of russians killed:</text>
       <text className="number-section-number"> {killedRussianState.totalKilled}</text>
       <text className="number-new-kills">+{killedRussianState.dailyKilled}</text>
     </Container>
