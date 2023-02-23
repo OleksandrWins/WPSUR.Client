@@ -18,6 +18,8 @@ const EmergencyWidget = (props: EmergencyWidgetState) => {
     color: "#E5E5E5",
   };
 
+
+
   return(
     <Container
     className="main-widget-child font-poppins-500"

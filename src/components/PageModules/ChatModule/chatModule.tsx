@@ -4,7 +4,6 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import MessageSendLogo from "../../../assets/svg/MessageSendLogo/messageSendLogo";
 import Chat from "../../../models/chats/Chat";
 import Message from "../../../models/messages/Message";
-import CreateMessageRequest from "../../../models/messages/request/createMessageRequest";
 import ChatService from "../../../shared/http-services/ChatService";
 import { ConnectionProvider } from "../../../shared/http-services/HttpServiceBase";
 import MessageService from "../../../shared/http-services/MessageService";
@@ -13,12 +12,13 @@ import "./style.css";
 import Moment from "moment";
 import React from "react";
 import UpdateMessageNotification from "../../../models/messages/notifications/updateMessage";
-import ConvertDateService from "../../../shared/convertDataServices/convertDateService";
 import { useLocation } from "react-router-dom";
 import LoadingSpinner from "../../../elements/loadingElement";
 import DoneUpdateMessageLogo from "../../../assets/svg/DoneUpdateMessageLogo/doneUpdateMessageLogo";
 import CancelUpdateMessageLogo from "../../../assets/svg/CancelUpdateMessageLogo/cancelUpdateMessageLogo";
 import DeletionMessageNotification from "../../../models/messages/notifications/deletionMessage";
+import ConvertDateService from "../../../shared/ConvertDataServices/ConvertDateService";
+import CreateMessageRequest from "../../../models/messages/request/createMessageRequest";
 
 const ChatModule = () => {
   const [chat, setChatState] = useState<Chat>({
@@ -189,7 +189,7 @@ const ChatModule = () => {
 
     setLoadingState(true);
 
-    MessageService.deleteMessage(messagesToDelete)
+    MessageService.deleteMessages(messagesToDelete)
       .then(() => {
         return setLoadingState(false);
       })

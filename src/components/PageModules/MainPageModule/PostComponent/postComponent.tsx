@@ -26,13 +26,11 @@ const PostComponent = (props: PostView) => {
     setSubTagJsxState([
       ...postState.subTags.map((subTag) => (
         <Col>
-          <Row>
             <TagElement
               key={postState.subTags.indexOf(subTag)}
               isMainTag={false}
               content={subTag.title}
             />
-          </Row>
         </Col>
       )),
     ]);
@@ -93,9 +91,9 @@ const PostComponent = (props: PostView) => {
 
   return (
     <Row className="post-row">
-      <Container className="post  d-block">
-        <Row className="post-tags-bar d-block">
-          <Col className="post-tag-bar  d-block">
+      <Container className="post">
+        <Row className="post-tags-bar">
+          <Col className="post-tag-bar">
             <TagElement
               key={1}
               isMainTag={true}

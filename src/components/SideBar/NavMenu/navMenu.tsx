@@ -28,7 +28,7 @@ const NavMenu = () => {
         <Container>
           <NavLink id="home" to="/home" className="menu-item-home menu-item">
             <Row>
-              <HomeLogo />
+              {/* <HomeLogo /> */}
               <Col>
                 <span>Main</span>
               </Col>
@@ -44,7 +44,7 @@ const NavMenu = () => {
             to="/messages"
           >
             <Row>
-              <MessageLogo />
+              {/* <MessageLogo /> */}
               <Col>
                 <span>Messages</span>
               </Col>
@@ -52,25 +52,20 @@ const NavMenu = () => {
           </NavLink>
         </Container>
       </Row>
-      <Row className="row-nav-menu">
-        <NavLink id="notification" className="menu-item" to="*">
-          <span>Notification</span>
-        </NavLink>
-      </Row>
-      <Row className="row-nav-menu">
+       <Row className="row-nav-menu">
+       <Container className="menu-item-wrap-messages">
         <NavLink
           id="emergencyRequest"
           className="menu-item"
           to="/emergencyList"
         >
-          <span>Emergency</span>
+          <Row>
+            <Col>
+              <span>Emergency</span>
+            </Col>
+          </Row>
         </NavLink>
-      </Row>
-
-      <Row className="row-nav-menu">
-        <NavLink id="calendar" className="menu-item" to="*">
-          <span>Calendar</span>
-        </NavLink>
+        </Container>
       </Row>
       <Row className="discussed-topics p-0 mt-3">Most discussed topics:</Row>
       <Row className="list-of-topics">
