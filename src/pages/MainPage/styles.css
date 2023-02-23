@@ -1,0 +1,8 @@
+.main-container { 
+  padding: 0 !important;
+  background-color: #f2f1e6;
+  height: 100% !important;
+  position: fixed;
+  margin-right: 30% !important;
+  margin-left: 20%;
+}

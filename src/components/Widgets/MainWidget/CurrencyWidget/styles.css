@@ -1,0 +1,25 @@
+.currency-symbol { 
+  font-size: 200%;
+}
+
+.currency-widget {
+  vertical-align: middle !important;
+}
+
+.main-widget-child { 
+  border-radius: 20px;
+  padding: 20px;
+  height: 100%;
+  width: 100%;
+}
+
+#currency-parent {
+  display: table;
+  text-align: center;
+}
+
+#currency-child {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 120%;
+}

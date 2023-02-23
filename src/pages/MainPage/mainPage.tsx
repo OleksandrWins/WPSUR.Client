@@ -11,12 +11,14 @@ import InfoPage from "../InfoPage/infoPage";
 import CreateEmergencyList from "../../components/PageModules/CreateEmergencyList/CreateEmergencyList";
 import CreatePostModule from "../../components/PageModules/CreatePostModule/createPostModule";
 
+import ChatModule from "../../components/PageModules/ChatModule/chatModule";
+import "./styles.css"
 
 const MainPage = () => {
   return <Container>
     <Row style={{ height: "auto"}}>
       <SideBar />
-      <Col className="main-container">
+      <Col md={6} className="main-container">
         <Routes>
           <Route path="/home" element={<MainPageModule />}/>
           <Route path="/home/:mainTagId" element={<MainTagModule />}/> 
@@ -24,6 +26,7 @@ const MainPage = () => {
           <Route path="/emergencyList" element={<CreateEmergencyList />}/>
           <Route path="/home/create-topic" element={<CreatePostModule />} />
           <Route path="/info" element={<InfoPage />}/>
+          <Route path="/messages/:chatId" element={<ChatModule />} />
           <Route path="*" element={<Navigate to="/home"/>}/>
         </Routes>
       </Col>

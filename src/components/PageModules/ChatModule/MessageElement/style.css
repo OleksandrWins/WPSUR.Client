@@ -1,0 +1,33 @@
+.message-container {  
+  background-color: #FDFDFA;
+  border: 5px solid #BDBCAC;
+  border-radius: 35px;
+  margin: 1em 2em !important;
+  width: 90% !important;
+}
+
+.sender-data { 
+  padding: 1% 10%;
+  font-size: 25px;
+}
+
+.message-content { 
+  font-size: 16px;
+  line-height: 18px;
+  word-break: break-all;
+}
+
+.created-date { 
+  padding: 1% 0%;
+  font-size: 12px;
+}
+
+.update-message-button { 
+  padding-top: 2%;
+}
+
+.confirm-update { 
+  position: sticky !important;
+  right: 35% !important;
+  top: 35% !important;
+}

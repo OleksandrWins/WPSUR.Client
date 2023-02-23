@@ -1,6 +1,6 @@
 .widgetMenu {
   position: fixed;
-  width: 30%;
+  width: 30% !important;
   margin-left: 70%;
   height: 100%;
 }
@@ -13,6 +13,7 @@
 .mainWidget {
   background-color: #486877;
   height: 56%;
+  padding: 9px !important;
 }
 
 .bottomWidget { 

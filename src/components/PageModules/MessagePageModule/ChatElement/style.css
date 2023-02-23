@@ -1,0 +1,18 @@
+.theme-container {
+  background-color: #FDFDFA !important;
+  border: 5px solid #BDBCAC !important;
+  color: #175A9B !important;
+  border-radius: 35px;
+  padding: 3% 10%;
+  width: 60% !important;
+  text-align: center;
+  margin-top: 48px !important;
+}
+
+.chat-menu-font { 
+  font-size: 30px !important; 
+  line-height: 38px !important;
+  text-decoration-line: underline !important;
+  
+  color: #175A9B !important;
+}

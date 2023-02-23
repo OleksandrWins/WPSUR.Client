@@ -1,8 +1,9 @@
 import Message from "../messages/Message";
+import { ChatUser } from "../users/ChatUser";
 
 interface Chat { 
-  userFrom: string;
-  userTo: string;
+  sender: ChatUser;
+  receiver: ChatUser;
   messages: Array<Message>;
 }
 

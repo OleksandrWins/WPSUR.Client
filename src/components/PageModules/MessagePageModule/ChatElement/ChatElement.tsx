@@ -1,24 +1,32 @@
 import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import ChatView from "../../../../models/chats/ChatView";
+import "./style.css";
 
 class ChatElement extends React.Component<ChatView> {
-
   constructor(props: ChatView) {
     super(props);
   }
 
   state: ChatView = {
-    userId: '',
-  }
+    receiverId: "",
+    receiverFirstName: "",
+    receiverLastName: "",
+    receiverEmail: ""
+  };
 
-  render() {return (
-    <Container>
-      <Row>
-        <Container >{this.props.userId}</Container>
-      </Row>
-    </Container>
-  )}
+  render() {
+    return (
+        <Row>
+          <Container className="theme-container">
+            <Link className="font-poppins-600 chat-menu-font" to={`${this.props.receiverId}`}>
+              {this.props.receiverFirstName} {this.props.receiverLastName}
+            </Link>
+          </Container>
+        </Row>
+    );
+  }
 }
 
 export default ChatElement;

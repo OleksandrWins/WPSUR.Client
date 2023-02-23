@@ -1,72 +1,126 @@
 import { AxiosResponse } from "axios";
-import React from "react";
-import { Container } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, Container, Form, InputGroup, Row } from "react-bootstrap";
+import SearchLogo from "../../../assets/svg/SearchLogo/searchLogo";
 import ChatView from "../../../models/chats/ChatView";
 import ChatService from "../../../shared/http-services/ChatService";
 import ChatElement from "./ChatElement/ChatElement";
+import "./style.css";
 
-type ChatsState = {
-  chats: ChatView[];
-};
+const MessagePageModule = () => {
+  const [chats, setChatsState] = useState<ChatView[]>([]);
+  const [emailToFind, setEmailToFind] = useState<string>("");
+  const [htmlChats, setHtmlChats] = useState<Array<JSX.Element>>([]);
 
-export type HtmlChat = { 
-  htmlElements: Array<JSX.Element>;
-}
+  useEffect(() => {
+    retrieveChats();
+  }, []);
 
-class MessagePageModule extends React.Component<{},ChatsState> {
+  useEffect(() => {
+    convertChatToHtmlChats(chats);
+  }, [chats])
 
-  i = 0;
-
-  userFrom: string = "3FA85F64-5717-4562-B3FC-2C963F66AFA6";
-
-  state: ChatsState = {
-    chats: [],
-  };
-
-  htmlChats: Array<JSX.Element> = [];
-
-  componentDidMount(): void {
-    ChatService.getInterlocutors(this.userFrom)
-      .then((response: AxiosResponse<string[]>) => {
-        console.log(response);
-
-        let chatArray = new Array<ChatView>();
-
-        for (let i = 0; i < response.data.length; i++) {
-          if (!chatArray.includes({userId: response.data[i]})) {
-            chatArray.push({userId: response.data[i]});
-          }
-        }
-
-        console.log(chatArray);
-
-        return this.setState({
-          chats: chatArray
-        })
-      })
-      .catch((err: any) => console.log(err));
+  const retrieveChats = () => { 
+    ChatService.getInterlocutors()
+    .then((response: AxiosResponse<ChatView[]>) => {
+      setChatStateDynamic(response.data);
+      convertChatToHtmlChats(chats);
+    })
+    .catch((err: Error) => console.error(err));
   }
 
-  render() {
-    for (let i = 0; i < this.state.chats.length; i++) {
-      
+  const setChatStateDynamic = (inputChatCollection: ChatView[]): void => {
+    let chatArray = new Array<ChatView>();
+
+    for (let i = 0; i < inputChatCollection.length; i++) {
+      let currentEntry = {
+        receiverId: inputChatCollection[i].receiverId,
+        receiverFirstName: inputChatCollection[i].receiverFirstName,
+        receiverLastName: inputChatCollection[i].receiverLastName,
+        receiverEmail: inputChatCollection[i].receiverEmail,
+      };
+
+      if (!chatArray.includes(currentEntry)) {
+        chatArray.push(currentEntry);
+      }
     }
 
-    this.state.chats.forEach((chat: ChatView) => {
-      console.log(chat.userId);
-      this.i++;
+    setChatsState(chatArray);
+  };
 
-      this.htmlChats.push(<ChatElement userId={chat.userId} key={this.i} />);
-    });
+  const searchChat = (email: string): void => {
+    ChatService.findInterlocutor(email)
+      .then((response: AxiosResponse<ChatView[]>) => {
+        return setChatStateDynamic(response.data);
+      })
+      .catch((err: Error) => console.log(err));
+  };
 
-    this.htmlChats = this.htmlChats.filter((element, index) => {
-      return this.htmlChats.indexOf(element) === index;
-    });
+  const convertChatToHtmlChats = (chats: ChatView[]) => {
+    let chatsCollection: Array<JSX.Element> = [];
 
-    console.log(this.htmlChats);
+    chats.forEach((chat: ChatView) => {
+      if (chatsCollection.length < chats.length) {
+        chatsCollection.push(
+          <ChatElement
+            receiverFirstName={chat.receiverFirstName}
+            receiverId={chat.receiverId}
+            receiverLastName={chat.receiverLastName}
+            receiverEmail={chat.receiverEmail}
+            key={chatsCollection.length}
+          />
+        );
+      }})
 
-    return <Container className="message-page">{this.htmlChats}</Container>;
-  }
-}
+      setHtmlChats(chatsCollection);
+    };
+
+    const onSubmitForm = (event: React.FormEvent<HTMLElement>) => {
+      event.preventDefault();
+
+      if (emailToFind === "") {
+        return;
+      }
+
+      searchChat(emailToFind);
+    }
+
+  return (
+    <Container className="message-page">
+      <Row className="justify-content-center">
+        <Container className="message-page-header font-poppins-600">
+          Messages
+        </Container>
+      </Row>
+      <Row>
+        <Container className="chat-search-input">
+          <Row className="justify-content-center">
+            <Form
+              onSubmit={(event: React.FormEvent<HTMLElement>) => onSubmitForm(event)}
+            >
+              <InputGroup>
+                <InputGroup.Text className="chat-search-logo">
+                  <Button className="search-chat-button" type="submit">
+                    <SearchLogo />
+                  </Button>
+                </InputGroup.Text>
+                <Form.Control
+                  onChange={(event) => setEmailToFind(event.target.value)}
+                  placeholder="find chat by email"
+                  id="chat-search-control"
+                  type="text"
+                  className="chat-search-input-control font-poppins-600"
+                />
+              </InputGroup>
+            </Form>
+          </Row>
+        </Container>
+      </Row>
+      <Row>
+        <Container className="chat-list">{htmlChats}</Container>
+      </Row>
+    </Container>
+  );
+};
 
 export default MessagePageModule;
