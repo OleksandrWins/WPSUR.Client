@@ -41,9 +41,14 @@ const PostComponent = (props: PostView) => {
 
     console.log(props);
 
-    console.log(props.comments);
+    console.log(props.comments)
 
-    setCommentState([...commentsState, ...props.comments]);
+    if (!props.comments) {
+      setCommentState([]);
+    } else { 
+      setCommentState([...props.comments]);
+    }
+
   }, []);
 
   useEffect(() => {

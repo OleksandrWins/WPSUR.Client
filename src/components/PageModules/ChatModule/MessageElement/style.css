@@ -31,3 +31,7 @@
   right: 35% !important;
   top: 35% !important;
 }
+
+.delete-message-button {
+  padding-top: 2%;
+}

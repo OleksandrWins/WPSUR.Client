@@ -66,8 +66,8 @@
   margin: 0 !important;
   padding: 0 !important;
   position: absolute;
-  right: 16%;
-  bottom: 35%;
+  right: 17%;
+  bottom: 38%;
 }
 
 .message-input-col { 
@@ -81,4 +81,8 @@
   height: fit-content !important;
   padding: 0 !important;
   bottom: 50% !important;
+}
+
+.delete-messages-confirm { 
+  margin: 0 10% !important;
 }

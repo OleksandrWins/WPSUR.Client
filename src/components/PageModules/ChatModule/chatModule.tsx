@@ -339,10 +339,10 @@ const ChatModule = () => {
           <Form onSubmit={(event) => onSubmit(event)}>
             <Row className="form-row justify-content-center">
               {isMessagesToDelete ? (
-                <Container>
+                <Container className="create-post-form delete-messages-confirm">
                   <Row>
                     <Container>
-                      <span>Delete messages?</span>
+                      <span >Delete messages?</span>
                     </Container>
                   </Row>
                   <Row>
