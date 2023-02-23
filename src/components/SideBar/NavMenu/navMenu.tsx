@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { NavLink, useLocation } from "react-router-dom";
 import HomeLogo from "../../../assets/svg/HomeLogo/home";
 import { MessageLogo } from "../../../assets/svg/MessagesLogo/messageLogo";
@@ -61,7 +61,8 @@ const NavMenu = () => {
         <NavLink
           id="emergencyRequest"
           className="menu-item"
-          to="/emergencyList">
+          to="/emergencyList"
+        >
           <span>Emergency</span>
         </NavLink>
       </Row>
@@ -76,6 +77,17 @@ const NavMenu = () => {
         <Row className="most-discussed-topics-row my-3">
           <MainTagSection />
         </Row>
+      </Row>
+      <Row>
+        <Container className="create-new-post-button">
+          <NavLink
+            id="create-topic"
+            to="/home/create-topic"
+            className="menu-item-home menu-item"
+          >
+            <Button>Add new post</Button>
+          </NavLink>
+        </Container>
       </Row>
     </Container>
   );

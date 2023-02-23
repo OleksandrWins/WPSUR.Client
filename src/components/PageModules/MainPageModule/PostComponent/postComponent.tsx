@@ -43,6 +43,8 @@ const PostComponent = (props: PostView) => {
 
     console.log(props);
 
+    console.log(props.comments);
+
     setCommentState([...commentsState, ...props.comments]);
   }, []);
 

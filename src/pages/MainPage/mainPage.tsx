@@ -9,6 +9,7 @@ import MainPageModule from "../../components/PageModules/MainPageModule/mainPage
 import MainTagModule from "../../components/PageModules/MainTagModule/mainTagModule";
 import InfoPage from "../InfoPage/infoPage";
 import CreateEmergencyList from "../../components/PageModules/CreateEmergencyList/CreateEmergencyList";
+import CreatePostModule from "../../components/PageModules/CreatePostModule/createPostModule";
 
 
 const MainPage = () => {
@@ -21,6 +22,7 @@ const MainPage = () => {
           <Route path="/home/:mainTagId" element={<MainTagModule />}/> 
           <Route path="/messages" element={<MessagePageModule />}/>
           <Route path="/emergencyList" element={<CreateEmergencyList />}/>
+          <Route path="/home/create-topic" element={<CreatePostModule />} />
           <Route path="/info" element={<InfoPage />}/>
           <Route path="*" element={<Navigate to="/home"/>}/>
         </Routes>

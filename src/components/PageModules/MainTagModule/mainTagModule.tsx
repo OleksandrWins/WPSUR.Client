@@ -21,11 +21,33 @@ const MainTagModule = () => {
     subTags: [],
     posts: [],
   });
+  const [postElementsState, setPostElementsState] = useState<Array<JSX.Element>>([]);
+
+  useEffect(() => {
+    console.log(postElementsState);
+    setPostElementsState([...mainTagState.posts.map((post: Post) => (
+      <PostComponent
+        id={post.id}
+        header={post.title}
+        content={post.body}
+        mainTag={{ id: mainTagState.id, title: mainTagState.title }}
+        subTags={[...mainTagState.subTags]}
+        likes={0}
+        comments={post.comments}
+        key={mainTagState.posts.indexOf(post)}
+      />
+    ))])
+
+    console.log(postElementsState);
+
+  }, [mainTagState])
 
   useEffect(() => {
     console.log();
     PostService.getMainTagState(location.pathname.slice(6)).then(
-      (response: AxiosResponse<MainTagState>) => setMainTagState(response.data)
+      (response: AxiosResponse<MainTagState>) => {
+        console.log(response.data);
+        setMainTagState(response.data)}
     ).catch((err: Error) => console.log(err));
 
     console.log(mainTagState.posts);
@@ -47,17 +69,7 @@ const MainTagModule = () => {
           </Col>
         ))}
       </Row>
-      {mainTagState.posts.map((post: Post) => (
-        <PostComponent
-          id={post.id}
-          header={post.title}
-          content={post.body}
-          mainTag={{ id: mainTagState.id, title: mainTagState.body }}
-          subTags={[...mainTagState.subTags]}
-          likes={0}
-          key={mainTagState.posts.indexOf(post)}
-        />
-      ))}
+      {postElementsState}
     </Container>
   );
 };

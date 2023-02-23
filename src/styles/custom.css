@@ -56,6 +56,8 @@ body {
 }
 
 .form-control {
+  background: #FDFDFA !important;
+  border: 5px solid #BDBCAC !important;
   border-radius: 35px !important;
 }
 

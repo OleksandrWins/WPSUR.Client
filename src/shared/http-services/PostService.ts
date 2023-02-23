@@ -6,6 +6,7 @@ import HttpServiceBase from "./HttpServiceBase";
 import MainTagState from "../../models/tags/MainTagState";
 import Post from "../../models/posts/Post";
 import TagBaseResponse from "../../models/tags/response/TagBaseResponse";
+import CreatePostRequest from "../../models/posts/requests/createPostRequest";
 
 const getPostsByTags = (request: SearchByTagsRequest): Promise<AxiosResponse<PostView>> => {
     return HttpServiceBase.Get<PostView>(`Post/SearchPostsByTags?MainTagId=${request.mainTagId}&SubTagId=${request.subTagId}`
@@ -24,11 +25,16 @@ const getPosts = (): Promise<AxiosResponse<Array<Post>>> => {
   return HttpServiceBase.Get<Array<Post>>(`Post/GetPosts`);
 }
 
+const createPost = (createPostRequest: CreatePostRequest): Promise<AxiosResponse<void>> => { 
+  return HttpServiceBase.Post<CreatePostRequest, void>(createPostRequest, `Post/CreatePost`);
+}
+
 const PostService = {
   getPostsByTags,
   getMainTags,
   getMainTagState,
   getPosts,
+  createPost,
 }
 
 export default PostService;

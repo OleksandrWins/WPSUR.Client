@@ -51,4 +51,7 @@ a {
   width: 120% !important;
 }
 
-
+.create-new-post-button {
+  position: relative;
+  top: 100px;
+}

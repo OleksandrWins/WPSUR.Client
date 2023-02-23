@@ -1,3 +1,4 @@
+import Comment from "../comments/comment";
 import Post from "../posts/Post";
 import TagBaseResponse from "./response/TagBaseResponse";
 
@@ -6,7 +7,7 @@ interface MainTagState {
   body: string;
   title: string;
   subTags: Array<TagBaseResponse>;
-  posts: Array<Post>
+  posts: Array<Post>;
 }
 
 export default MainTagState;
