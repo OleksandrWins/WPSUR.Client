@@ -1,5 +1,6 @@
 import { Container, Row } from "react-bootstrap";
 import "./styles.scss";
+
 const InfoPage = () => {
   return (
     <Container>
