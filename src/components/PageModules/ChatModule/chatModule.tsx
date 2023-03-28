@@ -18,7 +18,7 @@ import DoneUpdateMessageLogo from "../../../assets/svg/DoneUpdateMessageLogo/don
 import CancelUpdateMessageLogo from "../../../assets/svg/CancelUpdateMessageLogo/cancelUpdateMessageLogo";
 import DeletionMessageNotification from "../../../models/messages/notifications/deletionMessage";
 import ConvertDateService from "../../../shared/ConvertDataServices/ConvertDateService";
-import CreateMessageRequest from "../../../models/messages/request/createMessageRequest";
+import CreateMessageRequest from "../../../models/messages/request/CreateMessageRequest";
 
 const ChatModule = () => {
   const [chat, setChatState] = useState<Chat>({

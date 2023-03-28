@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import CreateMessageRequest from "../../models/messages/request/createMessageRequest";
+import CreateMessageRequest from "../../models/messages/request/CreateMessageRequest";
 import UpdateMessageRequest from "../../models/messages/request/updateMessageRequest";
 import HttpServiceBase from "./HttpServiceBase";
 
